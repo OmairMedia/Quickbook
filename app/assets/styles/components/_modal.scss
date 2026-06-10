@@ -1,0 +1,184 @@
+// ============================================
+// MODAL — Dialog, sizes, animations
+// ============================================
+
+@use 'generated/tokens' as *;
+
+// ---------- Modal Overlay ----------
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-scale-4;
+  background-color: rgba($color-black, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+
+  &--open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  // Prevent body scroll
+  &--open ~ body {
+    overflow: hidden;
+  }
+}
+
+// ---------- Modal Container ----------
+
+.modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100vh - #{$spacing-scale-8});
+  background-color: $color-background-surface;
+  border-radius: $border-radius-prominent;
+  box-shadow: $shadow-subtle;
+  transform: scale(0.95) translateY(8px);
+  transition: transform 0.2s ease;
+
+  .modal-overlay--open & {
+    transform: scale(1) translateY(0);
+  }
+
+  // Sizes
+  &--sm { max-width: 400px; }
+  &--md { max-width: 560px; }
+  &--lg { max-width: 720px; }
+  &--xl { max-width: 920px; }
+  &--full { max-width: calc(100vw - #{$spacing-scale-8}); }
+}
+
+// ---------- Modal Header ----------
+
+.modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-scale-4;
+  padding: $spacing-scale-6 $spacing-scale-6 0;
+  flex-shrink: 0;
+}
+
+.modal__title {
+  font-family: $typography-family-primary;
+  font-size: $typography-size-subheading;
+  font-weight: $typography-weight-semibold;
+  line-height: $typography-line-height-subheading;
+  color: $color-text-primary;
+}
+
+.modal__description {
+  font-size: $typography-size-body-small;
+  line-height: $typography-line-height-body-small;
+  color: $color-text-secondary;
+  margin-block-start: $spacing-scale-1;
+}
+
+.modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $spacing-scale-8;
+  height: $spacing-scale-8;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  border-radius: $border-radius-standard;
+  color: $color-text-secondary;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: $color-background-subtle;
+    color: $color-text-primary;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-interactive-primary-default;
+    outline-offset: 2px;
+  }
+}
+
+// ---------- Modal Body ----------
+
+.modal__body {
+  padding: $spacing-scale-6;
+  overflow-y: auto;
+  flex: 1;
+}
+
+// ---------- Modal Footer ----------
+
+.modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-scale-3;
+  padding: 0 $spacing-scale-6 $spacing-scale-6;
+  flex-shrink: 0;
+
+  // Align left (with justify-start)
+  &--left {
+    justify-content: flex-start;
+  }
+
+  // Space between
+  &--between {
+    justify-content: space-between;
+  }
+}
+
+// ---------- Sheet Variant (slides from right/bottom) ----------
+
+.modal-overlay--sheet {
+  justify-content: flex-end;
+
+  .modal {
+    max-height: 100vh;
+    height: 100vh;
+    border-radius: 0;
+    max-width: 480px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  &.modal-overlay--open .modal {
+    transform: translateX(0);
+  }
+}
+
+// ---------- Centered Alert / Confirm (small centered dialog) ----------
+
+.modal--alert {
+  text-align: center;
+
+  .modal__header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: $spacing-scale-8 $spacing-scale-6 0;
+  }
+
+  .modal__body {
+    text-align: center;
+  }
+
+  .modal__footer {
+    justify-content: center;
+  }
+}
+
+// ---------- Body Scroll Lock (used on <body>) ----------
+
+body.modal-open {
+  overflow: hidden;
+  padding-right: var(--scrollbar-width, 0px); // Prevent layout shift
+}

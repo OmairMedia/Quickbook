@@ -1,0 +1,430 @@
+// ============================================
+// FORMS — Input, Textarea, Select, Checkbox, Radio, Toggle
+// ============================================
+
+@use 'generated/tokens' as *;
+
+// ---------- Form Group ----------
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-scale-2;
+}
+
+// ---------- Label ----------
+
+.form-label {
+  font-family: $typography-family-primary;
+  font-size: $typography-size-body-small;
+  font-weight: $typography-weight-medium;
+  line-height: $typography-line-height-body-small;
+  color: $color-text-primary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-scale-2;
+}
+
+.form-label-required {
+  color: $color-status-error-default;
+  margin-left: 2px;
+}
+
+.form-label-hint {
+  font-weight: $typography-weight-regular;
+  color: $color-text-secondary;
+}
+
+// ---------- Helper / Error Text ----------
+
+.form-helper {
+  font-size: $typography-size-caption;
+  line-height: $typography-line-height-caption;
+  color: $color-text-secondary;
+
+  &--error {
+    color: $color-status-error-default;
+  }
+}
+
+// ---------- Text Input ----------
+
+.form-input {
+  width: 100%;
+  height: $component-input-text-height;
+  padding: $component-input-text-padding;
+  font-family: $typography-family-primary;
+  font-size: $component-input-text-font-size;
+  font-weight: $component-input-text-font-weight;
+  line-height: $component-input-text-line-height;
+  color: $color-text-primary;
+  background-color: $component-input-text-background;
+  border: $component-input-text-border;
+  border-radius: $component-input-text-border-radius;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  appearance: none;
+
+  &::placeholder {
+    color: $color-text-placeholder;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-border-focus;
+    box-shadow: $component-input-text-focus-shadow;
+  }
+
+  // States
+  &--error {
+    border-color: $color-border-error;
+
+    &:focus {
+      box-shadow: 0px 0px 0px 3px rgba($color-status-error-default, 0.1);
+    }
+  }
+
+  &:disabled {
+    background-color: $color-background-subtle;
+    color: $color-text-secondary;
+    cursor: not-allowed;
+  }
+
+  &--readonly {
+    background-color: $color-background-subtle;
+  }
+}
+
+// ---------- Textarea ----------
+
+.form-textarea {
+  width: 100%;
+  min-height: $component-input-textarea-min-height;
+  padding: $component-input-textarea-padding;
+  font-family: $typography-family-primary;
+  font-size: $component-input-textarea-font-size;
+  font-weight: $component-input-textarea-font-weight;
+  line-height: $component-input-textarea-line-height;
+  color: $color-text-primary;
+  background-color: $component-input-textarea-background;
+  border: $component-input-textarea-border;
+  border-radius: $component-input-textarea-border-radius;
+  resize: vertical;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &::placeholder {
+    color: $color-text-placeholder;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-border-focus;
+    box-shadow: $component-input-text-focus-shadow;
+  }
+
+  &--error {
+    border-color: $color-border-error;
+
+    &:focus {
+      box-shadow: 0px 0px 0px 3px rgba($color-status-error-default, 0.1);
+    }
+  }
+
+  &:disabled {
+    background-color: $color-background-subtle;
+    color: $color-text-secondary;
+    cursor: not-allowed;
+  }
+}
+
+// ---------- Select ----------
+
+.form-select {
+  width: 100%;
+  height: $component-input-text-height;
+  padding: $component-input-text-padding;
+  padding-right: $spacing-scale-10;
+  font-family: $typography-family-primary;
+  font-size: $component-input-text-font-size;
+  font-weight: $component-input-text-font-weight;
+  line-height: $component-input-text-line-height;
+  color: $color-text-primary;
+  background-color: $component-input-text-background;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' fill='none' stroke='%2378736F' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $spacing-scale-3 center;
+  background-size: 12px;
+  border: $component-input-text-border;
+  border-radius: $component-input-text-border-radius;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $color-border-focus;
+    box-shadow: $component-input-text-focus-shadow;
+  }
+
+  &--error {
+    border-color: $color-border-error;
+  }
+
+  &:disabled {
+    background-color: $color-background-subtle;
+    color: $color-text-secondary;
+    cursor: not-allowed;
+  }
+}
+
+// ---------- Checkbox ----------
+
+.form-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-scale-3;
+  cursor: pointer;
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+
+    &:focus-visible + .form-checkbox__control {
+      outline: 2px solid $color-interactive-primary-default;
+      outline-offset: 2px;
+    }
+  }
+
+  &__control {
+    width: $component-input-checkbox-size;
+    height: $component-input-checkbox-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: $component-input-checkbox-border;
+    border-radius: $component-input-checkbox-border-radius;
+    background-color: $color-white;
+    transition: background-color 0.1s ease, border-color 0.1s ease;
+  }
+
+  &__icon {
+    width: 12px;
+    height: 12px;
+    color: $component-input-checkbox-checkmark-color;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.1s ease, transform 0.1s ease;
+  }
+
+  &__label {
+    font-size: $typography-size-body-small;
+    line-height: $typography-line-height-body-small;
+    color: $color-text-primary;
+    user-select: none;
+  }
+
+  // Checked state
+  &__input:checked + &__control {
+    background-color: $component-input-checkbox-checked-bg;
+    border-color: $component-input-checkbox-checked-bg;
+
+    .form-checkbox__icon {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  // Disabled state
+  &__input:disabled + &__control {
+    background-color: $color-background-subtle;
+    border-color: $color-border-light;
+    cursor: not-allowed;
+  }
+
+  &__input:disabled ~ &__label {
+    color: $color-text-secondary;
+    cursor: not-allowed;
+  }
+}
+
+// ---------- Radio ----------
+
+.form-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-scale-3;
+  cursor: pointer;
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+
+    &:focus-visible + .form-radio__control {
+      outline: 2px solid $color-interactive-primary-default;
+      outline-offset: 2px;
+    }
+  }
+
+  &__control {
+    width: $component-input-checkbox-size;
+    height: $component-input-checkbox-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 2px solid $color-border-default;
+    border-radius: $border-radius-circle;
+    background-color: $color-white;
+    transition: border-color 0.1s ease;
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: $border-radius-circle;
+    background-color: $color-interactive-primary-default;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.1s ease, transform 0.1s ease;
+  }
+
+  &__label {
+    font-size: $typography-size-body-small;
+    line-height: $typography-line-height-body-small;
+    color: $color-text-primary;
+    user-select: none;
+  }
+
+  &__input:checked + &__control {
+    border-color: $color-interactive-primary-default;
+
+    .form-radio__dot {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &__input:disabled + &__control {
+    border-color: $color-border-light;
+    background-color: $color-background-subtle;
+    cursor: not-allowed;
+  }
+
+  &__input:disabled ~ &__label {
+    color: $color-text-secondary;
+    cursor: not-allowed;
+  }
+}
+
+// ---------- Toggle / Switch ----------
+
+.form-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-scale-3;
+  cursor: pointer;
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+
+    &:focus-visible + .form-toggle__track {
+      outline: 2px solid $color-interactive-primary-default;
+      outline-offset: 2px;
+    }
+  }
+
+  &__track {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+    background-color: $color-border-default;
+    border-radius: $border-radius-pill;
+    transition: background-color 0.2s ease;
+  }
+
+  &__thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: $color-white;
+    border-radius: $border-radius-circle;
+    box-shadow: $shadow-navigation;
+    transition: transform 0.2s ease;
+  }
+
+  &__label {
+    font-size: $typography-size-body-small;
+    line-height: $typography-line-height-body-small;
+    color: $color-text-primary;
+    user-select: none;
+  }
+
+  &__input:checked + &__track {
+    background-color: $color-interactive-primary-default;
+  }
+
+  &__input:checked + &__track &__thumb {
+    transform: translateX(20px);
+  }
+
+  &__input:disabled + &__track {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &__input:disabled ~ &__label {
+    color: $color-text-secondary;
+    cursor: not-allowed;
+  }
+}
+
+// ---------- Inline Form (Horizontal layout) ----------
+
+.form-inline {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-scale-4;
+  flex-wrap: wrap;
+
+  .form-group {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+// ---------- Form Section ----------
+
+.form-section {
+  margin-block-end: $spacing-scale-8;
+
+  &__title {
+    font-size: $typography-size-subheading;
+    font-weight: $typography-weight-semibold;
+    line-height: $typography-line-height-subheading;
+    color: $color-text-primary;
+    margin-block-end: $spacing-scale-1;
+  }
+
+  &__description {
+    font-size: $typography-size-body-small;
+    color: $color-text-secondary;
+    margin-block-end: $spacing-scale-6;
+  }
+}

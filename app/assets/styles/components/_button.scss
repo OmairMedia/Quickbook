@@ -1,0 +1,279 @@
+// ============================================
+// BUTTONS — All variants, sizes, states
+// ============================================
+
+@use 'generated/tokens' as *;
+
+// ---------- Base Button ----------
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-scale-2;
+  padding: $component-button-padding;
+  min-height: $component-button-min-height;
+  font-family: $typography-family-primary;
+  font-size: $component-button-font-size;
+  font-weight: $component-button-font-weight;
+  line-height: $component-button-line-height;
+  border-radius: $component-button-border-radius;
+  border: 0px solid transparent;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+
+  &:disabled,
+  &--disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // Focus visible for keyboard users
+  &:focus-visible {
+    outline: 2px solid $color-interactive-primary-default;
+    outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+// ---------- Variants ----------
+
+// Primary
+.btn--primary {
+  background-color: $color-interactive-primary-default;
+  color: $color-white;
+
+  &:hover:not(:disabled) {
+    background-color: $color-interactive-primary-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $color-interactive-primary-active;
+  }
+
+  &:disabled,
+  &.btn--disabled {
+    background-color: $color-interactive-primary-disabled-bg;
+    color: $color-interactive-primary-disabled-text;
+  }
+}
+
+// Secondary
+.btn--secondary {
+  background-color: $color-interactive-secondary-default;
+  color: $color-interactive-secondary-text;
+  border: 1px solid $color-interactive-secondary-border;
+
+  &:hover:not(:disabled) {
+    background-color: $color-interactive-secondary-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $color-interactive-secondary-active;
+    color: $color-interactive-secondary-active-text;
+  }
+
+  &:disabled,
+  &.btn--disabled {
+    opacity: 0.5;
+  }
+}
+
+// Ghost (on dark backgrounds)
+.btn--ghost {
+  background-color: $color-interactive-ghost-default;
+  color: $color-interactive-ghost-text;
+  border: 1px solid $color-interactive-ghost-border;
+
+  &:hover:not(:disabled) {
+    background-color: $color-interactive-ghost-hover;
+    color: $color-interactive-ghost-hover-text;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $color-interactive-ghost-active;
+  }
+
+  &:disabled,
+  &.btn--disabled {
+    opacity: 0.4;
+  }
+}
+
+// Destructive / Danger
+.btn--danger {
+  background-color: $color-status-error-default;
+  color: $color-white;
+
+  &:hover:not(:disabled) {
+    background-color: darken($color-status-error-default, 8%);
+  }
+
+  &:active:not(:disabled) {
+    background-color: darken($color-status-error-default, 14%);
+  }
+
+  &:disabled,
+  &.btn--disabled {
+    background-color: $color-interactive-primary-disabled-bg;
+    color: $color-interactive-primary-disabled-text;
+  }
+}
+
+// Text-only (no border, no background)
+.btn--text {
+  background-color: transparent;
+  color: $color-interactive-primary-default;
+  padding: $spacing-scale-2 $spacing-scale-3;
+
+  &:hover:not(:disabled) {
+    background-color: $color-background-blue-tint;
+  }
+
+  &:active:not(:disabled) {
+    background-color: rgba($color-interactive-primary-default, 0.15);
+  }
+
+  &:disabled,
+  &.btn--disabled {
+    color: $color-text-secondary;
+    background-color: transparent;
+  }
+}
+
+// Link (looks like an inline link)
+.btn--link {
+  background-color: transparent;
+  color: $color-text-link;
+  padding: 0;
+  min-height: auto;
+  font-weight: $typography-weight-regular;
+  text-decoration: none;
+
+  &:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+
+  &:disabled,
+  &.btn--disabled {
+    color: $color-text-secondary;
+    text-decoration: none;
+  }
+}
+
+// ---------- Sizes ----------
+
+.btn--sm {
+  padding: $spacing-scale-2 $spacing-scale-3;
+  min-height: $spacing-scale-8;
+  font-size: $typography-size-body-small;
+  line-height: $typography-line-height-body-small;
+  border-radius: $border-radius-minimal;
+}
+
+.btn--lg {
+  padding: $spacing-scale-4 $spacing-scale-8;
+  min-height: 52px;
+  font-size: $typography-size-subheading;
+  border-radius: $border-radius-standard;
+}
+
+// ---------- Icon Button ----------
+
+.btn--icon {
+  width: $component-button-icon-size;
+  height: $component-button-icon-size;
+  padding: 0;
+  background-color: $color-interactive-icon-default;
+  color: $color-interactive-icon-text;
+
+  &:hover:not(:disabled) {
+    background-color: $color-interactive-icon-hover;
+  }
+
+  &.btn--sm {
+    width: $spacing-scale-8;
+    height: $spacing-scale-8;
+  }
+
+  &.btn--lg {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+// ---------- Full Width ----------
+
+.btn--full {
+  width: 100%;
+}
+
+// ---------- Loading State ----------
+
+.btn--loading {
+  position: relative;
+  cursor: wait;
+
+  .btn__text {
+    opacity: 0.5;
+  }
+
+  .btn__spinner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: $border-radius-circle;
+    animation: btn-spin 0.6s linear infinite;
+  }
+
+  &.btn--sm .btn__spinner {
+    width: 12px;
+    height: 12px;
+  }
+
+  &.btn--lg .btn__spinner {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ---------- Button Group ----------
+
+.btn-group {
+  display: inline-flex;
+
+  .btn {
+    border-radius: 0;
+
+    &:first-child {
+      border-radius: $component-button-border-radius 0 0 $component-button-border-radius;
+    }
+
+    &:last-child {
+      border-radius: 0 $component-button-border-radius $component-button-border-radius 0;
+    }
+
+    & + .btn {
+      margin-left: -1px;
+    }
+  }
+}

@@ -1,0 +1,248 @@
+// ============================================
+// TABLE — Data table with all variants
+// ============================================
+
+@use 'generated/tokens' as *;
+
+// ---------- Table Container (for horizontal scroll) ----------
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid $color-border-light;
+  border-radius: $border-radius-prominent;
+}
+
+// ---------- Base Table ----------
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: $typography-family-primary;
+  font-size: $typography-size-body-small;
+  line-height: $typography-line-height-body-small;
+  color: $color-text-primary;
+  background-color: $color-background-surface;
+
+  // Sticky header (works inside .table-container with max-height)
+  &--sticky-header {
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+  }
+}
+
+// ---------- Header ----------
+
+.table__head {
+  border-bottom: 1px solid $color-border-light;
+  background-color: $color-background-subtle;
+}
+
+.table__header {
+  padding: $spacing-scale-3 $spacing-scale-4;
+  font-size: $typography-size-caption;
+  font-weight: $typography-weight-semibold;
+  line-height: $typography-line-height-caption;
+  color: $color-text-secondary;
+  text-align: left;
+  white-space: nowrap;
+  user-select: none;
+
+  // Sortable column
+  &--sortable {
+    cursor: pointer;
+    transition: color 0.1s ease;
+
+    &:hover {
+      color: $color-text-primary;
+    }
+  }
+
+  // Sort direction
+  &--sorted-asc,
+  &--sorted-desc {
+    color: $color-interactive-primary-default;
+  }
+}
+
+// Sort icon wrapper
+.table__sort-icon {
+  display: inline-block;
+  margin-left: $spacing-scale-1;
+  vertical-align: middle;
+  opacity: 0.5;
+
+  .table__header--sorted-asc &,
+  .table__header--sorted-desc & {
+    opacity: 1;
+  }
+}
+
+// ---------- Body ----------
+
+.table__body {
+  .table__row {
+    border-bottom: 1px solid $color-border-light;
+    transition: background-color 0.1s ease;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    // Hover state
+    &--hoverable:hover {
+      background-color: $color-background-subtle;
+    }
+
+    // Clickable row
+    &--clickable {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color-background-blue-tint;
+      }
+    }
+
+    // Selected row
+    &--selected {
+      background-color: $color-background-blue-tint;
+    }
+
+    // Striped variant (parent class on table)
+    .table--striped &:nth-child(even) {
+      background-color: rgba($color-background-subtle, 0.5);
+    }
+  }
+}
+
+.table__cell {
+  padding: $spacing-scale-3 $spacing-scale-4;
+  vertical-align: middle;
+  color: $color-text-primary;
+
+  // Alignment
+  &--right { text-align: right; }
+  &--center { text-align: center; }
+
+  // Truncate
+  &--truncate {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // Cell with strong emphasis (first column often)
+  &--primary {
+    font-weight: $typography-weight-medium;
+  }
+}
+
+// ---------- Empty State ----------
+
+.table__empty {
+  padding: $spacing-scale-12 $spacing-scale-4;
+  text-align: center;
+  color: $color-text-secondary;
+
+  &-icon {
+    margin-block-end: $spacing-scale-3;
+    color: $color-border-default;
+  }
+
+  &-title {
+    font-weight: $typography-weight-semibold;
+    margin-block-end: $spacing-scale-1;
+  }
+}
+
+// ---------- Loading State ----------
+
+.table__loading {
+  .table__body {
+    position: relative;
+    min-height: 200px;
+  }
+
+  .table__loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($color-background-surface, 0.7);
+  }
+}
+
+// ---------- Footer ----------
+
+.table__foot {
+  border-top: 2px solid $color-border-light;
+  background-color: $color-background-subtle;
+
+  .table__cell {
+    font-weight: $typography-weight-semibold;
+  }
+}
+
+// ---------- Compact Variant ----------
+
+.table--compact {
+  .table__header,
+  .table__cell {
+    padding: $spacing-scale-2 $spacing-scale-3;
+  }
+}
+
+// ---------- Bordered Variant ----------
+
+.table--bordered {
+  .table__header,
+  .table__cell {
+    border: 1px solid $color-border-light;
+  }
+}
+
+// ---------- Responsive (Card style on mobile) ----------
+
+@media (max-width: 639px) {
+  .table--responsive {
+    thead {
+      display: none;
+    }
+
+    .table__row {
+      display: block;
+      padding: $spacing-scale-4;
+      border-bottom: 1px solid $color-border-light;
+    }
+
+    .table__cell {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: $spacing-scale-2 0;
+      border: none;
+
+      &::before {
+        content: attr(data-label);
+        font-weight: $typography-weight-semibold;
+        color: $color-text-secondary;
+        margin-right: $spacing-scale-4;
+      }
+
+      &--primary::before {
+        display: none;
+      }
+
+      &--primary {
+        font-size: $typography-size-body;
+        padding-bottom: $spacing-scale-2;
+      }
+    }
+  }
+}

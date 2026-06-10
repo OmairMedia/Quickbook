@@ -1,0 +1,531 @@
+// ============================================
+// AUTH LAYOUT — Login, Register, Password Reset
+// Uses generated design tokens
+// ============================================
+
+@use 'generated/tokens' as *;
+
+// ============================================
+// 1. AUTH PAGE LAYOUT
+// ============================================
+
+.auth-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: $color-background-page;
+}
+
+// ============================================
+// 2. AUTH SPLIT LAYOUT (Hero + Form)
+// ============================================
+
+.auth-split {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+// ---------- Hero Panel ----------
+
+.auth-hero {
+  display: none; // Hidden on mobile by default
+  position: relative;
+  flex: 1;
+  background-color: $color-blue-navy;
+  overflow: hidden;
+
+  @media (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: $spacing-scale-12;
+  }
+
+  // Background pattern overlay
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        ellipse at 20% 50%,
+        rgba($color-interactive-primary-default, 0.15) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse at 80% 20%,
+        rgba($color-blue-deep, 0.1) 0%,
+        transparent 50%
+      );
+  }
+
+  // Content sits above the background
+  &-content {
+    position: relative;
+    z-index: 1;
+    max-width: 520px;
+  }
+
+  &-logo {
+    margin-block-end: $spacing-scale-10;
+    color: $color-white;
+  }
+
+  &-heading {
+    font-family: $typography-family-primary;
+    font-size: $typography-size-display-2;
+    font-weight: $typography-weight-bold;
+    line-height: $typography-line-height-display-2;
+    color: $color-white;
+    margin-block-end: $spacing-scale-6;
+  }
+
+  &-text {
+    font-family: $typography-family-primary;
+    font-size: $typography-size-body;
+    font-weight: $typography-weight-regular;
+    line-height: $typography-line-height-body;
+    color: rgba($color-white, 0.8);
+  }
+
+  // Testimonial or feature cards inside hero
+  &-features {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-scale-4;
+    margin-block-start: $spacing-scale-10;
+
+    @media (min-width: 1440px) {
+      flex-direction: row;
+    }
+  }
+
+  &-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-scale-3;
+    color: rgba($color-white, 0.75);
+
+    &-icon {
+      flex-shrink: 0;
+      width: $spacing-scale-6;
+      height: $spacing-scale-6;
+      color: $color-interactive-primary-default;
+    }
+
+    &-text {
+      font-size: $typography-size-body-small;
+      line-height: $typography-line-height-body-small;
+    }
+  }
+
+  // Background illustration placeholder
+  &-illustration {
+    position: absolute;
+    right: -10%;
+    bottom: -10%;
+    width: 60%;
+    height: 60%;
+    opacity: 0.05;
+    background-color: $color-white;
+    border-radius: $border-radius-circle;
+  }
+}
+
+// ---------- Form Panel ----------
+
+.auth-form-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  padding: $spacing-scale-8 $spacing-scale-6;
+  background-color: $color-background-surface;
+
+  @media (min-width: 640px) {
+    padding: $spacing-scale-10 $spacing-scale-8;
+  }
+
+  @media (min-width: 1024px) {
+    width: 50%;
+    max-width: 560px;
+    padding: $spacing-scale-12;
+  }
+
+  @media (min-width: 1440px) {
+    padding: $spacing-scale-12 $spacing-scale-12;
+  }
+}
+
+// ============================================
+// 3. CENTERED AUTH (No hero, for simple flows)
+// ============================================
+
+.auth-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 440px;
+  margin-inline: auto;
+  padding: $spacing-scale-8 $spacing-scale-4;
+
+  @media (min-width: 640px) {
+    padding: $spacing-scale-10 $spacing-scale-6;
+  }
+}
+
+// ============================================
+// 4. AUTH HEADER (Logo + Context)
+// ============================================
+
+.auth-header {
+  margin-block-end: $spacing-scale-8;
+
+  &-logo {
+    margin-block-end: $spacing-scale-6;
+  }
+
+  &-title {
+    font-family: $typography-family-primary;
+    font-size: $typography-size-heading-1;
+    font-weight: $typography-weight-bold;
+    line-height: $typography-line-height-heading-1;
+    color: $color-text-primary;
+    margin-block-end: $spacing-scale-2;
+  }
+
+  &-subtitle {
+    font-family: $typography-family-primary;
+    font-size: $typography-size-body;
+    font-weight: $typography-weight-regular;
+    line-height: $typography-line-height-body;
+    color: $color-text-secondary;
+  }
+}
+
+// ============================================
+// 5. AUTH FORM ELEMENTS
+// ============================================
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-scale-5; // 20px between form groups
+  width: 100%;
+}
+
+// Form group wrapper
+.auth-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-scale-2; // 8px between label and input
+}
+
+// Label
+.auth-label {
+  font-family: $typography-family-primary;
+  font-size: $typography-size-body-small;
+  font-weight: $typography-weight-medium;
+  line-height: $typography-line-height-body-small;
+  color: $color-text-primary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Forgot password link inside label row
+.auth-label-link {
+  font-size: $typography-size-body-small;
+  font-weight: $typography-weight-medium;
+  color: $color-text-link;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Input — uses your component tokens
+.auth-input {
+  width: 100%;
+  height: $component-input-text-height;
+  padding: $component-input-text-padding;
+  font-family: $typography-family-primary;
+  font-size: $component-input-text-font-size;
+  font-weight: $component-input-text-font-weight;
+  line-height: $component-input-text-line-height;
+  color: $color-text-primary;
+  background-color: $component-input-text-background;
+  border: $component-input-text-border;
+  border-radius: $component-input-text-border-radius;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &::placeholder {
+    color: $color-text-placeholder;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-border-focus;
+    box-shadow: $component-input-text-focus-shadow;
+  }
+
+  &--error {
+    border-color: $color-border-error;
+
+    &:focus {
+      box-shadow: 0px 0px 0px 3px rgba($color-status-error-default, 0.1);
+    }
+  }
+}
+
+// Error message
+.auth-error {
+  font-size: $typography-size-caption;
+  font-weight: $typography-weight-medium;
+  line-height: $typography-line-height-caption;
+  color: $color-status-error-default;
+  margin-block-start: $spacing-scale-1;
+}
+
+// General form error banner
+.auth-form-error {
+  padding: $spacing-scale-3 $spacing-scale-4;
+  background-color: $color-status-error-background;
+  border: 1px solid $color-status-error-default;
+  border-radius: $border-radius-standard;
+  font-size: $typography-size-body-small;
+  line-height: $typography-line-height-body-small;
+  color: $color-status-error-default;
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-scale-2;
+}
+
+// Success message
+.auth-form-success {
+  padding: $spacing-scale-3 $spacing-scale-4;
+  background-color: $color-status-info-background;
+  border: 1px solid $color-interactive-primary-default;
+  border-radius: $border-radius-standard;
+  font-size: $typography-size-body-small;
+  line-height: $typography-line-height-body-small;
+  color: $color-interactive-primary-default;
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-scale-2;
+}
+
+// ============================================
+// 6. AUTH BUTTONS
+// ============================================
+
+.auth-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: $component-button-min-height;
+  padding: $component-button-padding;
+  font-family: $typography-family-primary;
+  font-size: $component-button-font-size;
+  font-weight: $component-button-font-weight;
+  line-height: $component-button-line-height;
+  border-radius: $component-button-border-radius;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  // Primary
+  &--primary {
+    background-color: $color-interactive-primary-default;
+    color: $color-white;
+
+    &:hover {
+      background-color: $color-interactive-primary-hover;
+    }
+
+    &:active {
+      background-color: $color-interactive-primary-active;
+    }
+
+    &:disabled {
+      background-color: $color-interactive-primary-disabled-bg;
+      color: $color-interactive-primary-disabled-text;
+      cursor: not-allowed;
+    }
+  }
+
+  // Secondary
+  &--secondary {
+    background-color: $color-interactive-secondary-default;
+    color: $color-interactive-secondary-text;
+    border: 1px solid $color-interactive-secondary-border;
+
+    &:hover {
+      background-color: $color-interactive-secondary-hover;
+    }
+
+    &:active {
+      background-color: $color-interactive-secondary-active;
+      color: $color-interactive-secondary-active-text;
+    }
+  }
+
+  // Full width is default for auth, but explicit class available
+  &--full {
+    width: 100%;
+  }
+}
+
+// ============================================
+// 7. AUTH DIVIDER (Or continue with)
+// ============================================
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: $spacing-scale-4;
+  width: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: $color-border-light;
+  }
+
+  &-text {
+    font-size: $typography-size-caption;
+    font-weight: $typography-weight-medium;
+    line-height: $typography-line-height-caption;
+    color: $color-text-secondary;
+    white-space: nowrap;
+  }
+}
+
+// ============================================
+// 8. SOCIAL LOGIN BUTTONS
+// ============================================
+
+.auth-social {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-scale-3;
+}
+
+.auth-social-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-scale-3;
+  width: 100%;
+  min-height: $component-button-min-height;
+  padding: $component-button-padding;
+  font-family: $typography-family-primary;
+  font-size: $component-button-font-size;
+  font-weight: $component-button-font-weight;
+  line-height: $component-button-line-height;
+  border-radius: $component-button-border-radius;
+  border: 1px solid $color-border-default;
+  background-color: $color-background-surface;
+  color: $color-text-primary;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: $color-background-subtle;
+  }
+}
+
+// ============================================
+// 9. AUTH FOOTER (Switch between login/register)
+// ============================================
+
+.auth-footer {
+  margin-block-start: $spacing-scale-8;
+  text-align: center;
+  font-size: $typography-size-body-small;
+  line-height: $typography-line-height-body-small;
+  color: $color-text-secondary;
+
+  a {
+    font-weight: $typography-weight-medium;
+    color: $color-text-link;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ============================================
+// 10. PASSWORD REQUIREMENTS
+// ============================================
+
+.auth-password-requirements {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-scale-1;
+  padding: $spacing-scale-3;
+  background-color: $color-background-subtle;
+  border-radius: $border-radius-standard;
+  font-size: $typography-size-caption;
+  line-height: $typography-line-height-caption;
+  color: $color-text-secondary;
+
+  &-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-scale-2;
+
+    &--met {
+      color: $color-status-info-default;
+    }
+
+    &--unmet {
+      color: $color-text-secondary;
+    }
+  }
+}
+
+// ============================================
+// 11. RESPONSIVE BEHAVIOR
+// ============================================
+
+// Mobile: full-width form, no hero panel
+@media (max-width: 639px) {
+  .auth-split {
+    flex-direction: column;
+  }
+
+  .auth-form-panel {
+    padding: $spacing-scale-8 $spacing-scale-4;
+  }
+
+  .auth-centered {
+    padding: $spacing-scale-6 $spacing-scale-4;
+  }
+
+  .auth-header-title {
+    font-size: $typography-size-heading-2;
+    line-height: $typography-line-height-heading-2;
+  }
+}
+
+// Tablet: hero panel still hidden, form gets more breathing room
+@media (min-width: 640px) and (max-width: 1023px) {
+  .auth-form-panel {
+    max-width: 480px;
+    margin-inline: auto;
+    padding: $spacing-scale-10;
+  }
+
+  .auth-centered {
+    max-width: 480px;
+  }
+}
