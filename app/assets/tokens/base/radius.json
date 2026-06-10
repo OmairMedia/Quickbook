@@ -1,0 +1,10 @@
+{
+  "border-radius": {
+    "none": { "value": "0px" },
+    "minimal": { "value": "4px" },
+    "standard": { "value": "8px" },
+    "prominent": { "value": "12px" },
+    "circle": { "value": "50%" },
+    "pill": { "value": "1000px" }
+  }
+}

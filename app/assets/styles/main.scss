@@ -1,0 +1,362 @@
+// ============================================
+// MAIN — Foundation layer using generated tokens
+// ============================================
+
+@use 'generated/tokens' as *;
+@use 'reset';
+@use 'typography';
+
+// ============================================
+// 1. ROOT ELEMENT DEFAULTS
+// ============================================
+
+html {
+  font-size: 100%; // Respect user's browser font size
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $typography-family-primary;
+  font-size: $typography-size-body;
+  font-weight: $typography-weight-regular;
+  line-height: $typography-line-height-body;
+  color: $color-text-primary;
+  background-color: $color-background-page;
+  min-height: 100vh;
+}
+
+// ============================================
+// 2. SELECTION STYLING
+// ============================================
+
+::selection {
+  background-color: rgba($color-interactive-primary-default, 0.2);
+  color: $color-text-primary;
+}
+
+// ============================================
+// 3. FOCUS VISIBLE (accessibility)
+// ============================================
+
+:focus-visible {
+  outline: 2px solid $color-interactive-primary-default;
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// ============================================
+// 4. CONTAINER UTILITIES
+// ============================================
+
+.container {
+  width: 100%;
+  max-width: $spacing-container-max-width;
+  margin-inline: auto;
+  padding-inline: $spacing-container-padding-desktop;
+
+  @media (max-width: 1023px) {
+    padding-inline: $spacing-container-padding-tablet;
+  }
+
+  @media (max-width: 639px) {
+    padding-inline: $spacing-container-padding-mobile;
+  }
+}
+
+.container-content {
+  width: 100%;
+  max-width: $spacing-container-content-width;
+  margin-inline: auto;
+  padding-inline: $spacing-container-padding-desktop;
+
+  @media (max-width: 1023px) {
+    padding-inline: $spacing-container-padding-tablet;
+  }
+
+  @media (max-width: 639px) {
+    padding-inline: $spacing-container-padding-mobile;
+  }
+}
+
+// ============================================
+// 5. SECTION SPACING
+// ============================================
+
+.section {
+  padding-block: $spacing-scale-10; // 40px
+
+  &--large {
+    padding-block: $spacing-scale-12; // 60px
+  }
+
+  &--hero {
+    padding-block: $spacing-scale-12 $spacing-scale-11; // 60px top, 56px bottom
+  }
+
+  @media (max-width: 639px) {
+    padding-block: $spacing-scale-8; // 32px
+
+    &--large {
+      padding-block: $spacing-scale-10; // 40px
+    }
+
+    &--hero {
+      padding-block: $spacing-scale-10 $spacing-scale-8;
+    }
+  }
+}
+
+// ============================================
+// 6. GRID LAYOUTS
+// ============================================
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(#{$spacing-grid-columns}, 1fr);
+  gap: $spacing-grid-gutter;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-grid-card-gap;
+
+  @media (max-width: 639px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-grid-card-gap;
+
+  @media (max-width: 1023px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 639px) {
+    grid-template-columns: 1fr;
+    gap: $spacing-scale-4;
+  }
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-grid-card-gap;
+
+  @media (max-width: 1023px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 639px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Split layouts
+.split-50-50 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-scale-8;
+
+  @media (max-width: 639px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.split-60-40 {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: $spacing-scale-8;
+
+  @media (max-width: 639px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.split-40-60 {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: $spacing-scale-8;
+
+  @media (max-width: 639px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ============================================
+// 7. SPACING UTILITIES
+// ============================================
+
+// Margin utilities (using token scale)
+@each $key, $value in (
+  1: $spacing-scale-1,
+  2: $spacing-scale-2,
+  3: $spacing-scale-3,
+  4: $spacing-scale-4,
+  5: $spacing-scale-5,
+  6: $spacing-scale-6,
+  7: $spacing-scale-7,
+  8: $spacing-scale-8,
+  9: $spacing-scale-9,
+  10: $spacing-scale-10,
+  11: $spacing-scale-11,
+  12: $spacing-scale-12
+) {
+  .mt-#{$key} { margin-block-start: $value; }
+  .mb-#{$key} { margin-block-end: $value; }
+  .ml-#{$key} { margin-inline-start: $value; }
+  .mr-#{$key} { margin-inline-end: $value; }
+}
+
+// Padding utilities
+@each $key, $value in (
+  1: $spacing-scale-1,
+  2: $spacing-scale-2,
+  3: $spacing-scale-3,
+  4: $spacing-scale-4,
+  5: $spacing-scale-5,
+  6: $spacing-scale-6,
+  7: $spacing-scale-7,
+  8: $spacing-scale-8,
+  9: $spacing-scale-9,
+  10: $spacing-scale-10,
+  11: $spacing-scale-11,
+  12: $spacing-scale-12
+) {
+  .pt-#{$key} { padding-block-start: $value; }
+  .pb-#{$key} { padding-block-end: $value; }
+  .pl-#{$key} { padding-inline-start: $value; }
+  .pr-#{$key} { padding-inline-end: $value; }
+  .p-#{$key} { padding: $value; }
+}
+
+// Gap utility
+@each $key, $value in (
+  1: $spacing-scale-1,
+  2: $spacing-scale-2,
+  3: $spacing-scale-3,
+  4: $spacing-scale-4,
+  6: $spacing-scale-6,
+  8: $spacing-scale-8,
+  10: $spacing-scale-10
+) {
+  .gap-#{$key} { gap: $value; }
+}
+
+// ============================================
+// 8. BACKGROUND UTILITIES
+// ============================================
+
+.bg-page { background-color: $color-background-page; }
+.bg-surface { background-color: $color-background-surface; }
+.bg-subtle { background-color: $color-background-subtle; }
+.bg-blue-tint { background-color: $color-background-blue-tint; }
+.bg-warm-tint { background-color: $color-background-warm-tint; }
+.bg-peach-tint { background-color: $color-background-peach-tint; }
+.bg-pink-tint { background-color: $color-background-pink-tint; }
+.bg-transparent { background-color: $color-background-overlay; }
+
+// ============================================
+// 9. TEXT COLOR UTILITIES
+// ============================================
+
+.text-primary { color: $color-text-primary; }
+.text-secondary { color: $color-text-secondary; }
+.text-inverse { color: $color-text-inverse; }
+.text-link { color: $color-text-link; }
+
+// ============================================
+// 10. BORDER RADIUS UTILITIES
+// ============================================
+
+.rounded-none { border-radius: $border-radius-none; }
+.rounded-minimal { border-radius: $border-radius-minimal; }
+.rounded-standard { border-radius: $border-radius-standard; }
+.rounded-prominent { border-radius: $border-radius-prominent; }
+.rounded-circle { border-radius: $border-radius-circle; }
+.rounded-pill { border-radius: $border-radius-pill; }
+
+// ============================================
+// 11. SHADOW UTILITIES
+// ============================================
+
+.shadow-none { box-shadow: $shadow-none; }
+.shadow-subtle { box-shadow: $shadow-subtle; }
+.shadow-dropdown { box-shadow: $shadow-dropdown; }
+.shadow-navigation { box-shadow: $shadow-navigation; }
+.shadow-focus { box-shadow: $shadow-focus; }
+
+// ============================================
+// 12. VISUALLY HIDDEN (accessibility)
+// ============================================
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// ============================================
+// 13. REDUCED MOTION
+// ============================================
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ============================================
+// 14. RESPONSIVE BREAKPOINT MIXINS
+// ============================================
+
+@mixin mobile {
+  @media (max-width: 639px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 640px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media (min-width: 640px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin large-desktop {
+  @media (min-width: 1440px) {
+    @content;
+  }
+}

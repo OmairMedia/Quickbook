@@ -1,0 +1,32 @@
+{
+  "color": {
+    "black": { "value": "#000000" },
+    "white": { "value": "#FFFFFF" },
+    "gray": {
+      "dark": { "value": "#78736F" },
+      "light": { "value": "#F6F5F4" }
+    },
+    "blue": {
+      "primary": { "value": "#62AEF0" },
+      "deep": { "value": "#0075DE" },
+      "navy": { "value": "#097FE8" },
+      "surface": { "value": "#F2F9FF" }
+    },
+    "purple": { "value": "#9849E8" },
+    "teal": { "value": "#27918D" },
+    "orange": { "value": "#FF6D00" },
+    "brown": { "value": "#9C7054" },
+    "red": {
+      "error": { "value": "#F64932" }
+    },
+    "yellow": {
+      "warning": { "value": "#FFB110" }
+    },
+    "cream": {
+      "default": { "value": "#F6F5F4" },
+      "warm": { "value": "#FCF8F5" },
+      "peach": { "value": "#FFF5ED" },
+      "pink": { "value": "#FEF3F1" }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "typography": {
+    "family": {
+      "primary": {
+        "value": "NotionInter, Inter, system-ui, -apple-system, sans-serif"
+      },
+      "secondary": {
+        "value": "NotionInter, system-ui, sans-serif"
+      }
+    },
+    "size": {
+      "display-1": { "value": "64px" },
+      "display-2": { "value": "48px" },
+      "heading-1": { "value": "32px" },
+      "heading-2": { "value": "24px" },
+      "heading-3": { "value": "18px" },
+      "subheading": { "value": "16px" },
+      "body": { "value": "16px" },
+      "body-small": { "value": "14px" },
+      "button": { "value": "16px" },
+      "caption": { "value": "12px" },
+      "code": { "value": "14px" }
+    },
+    "weight": {
+      "regular": { "value": "400" },
+      "medium": { "value": "500" },
+      "semibold": { "value": "600" },
+      "bold": { "value": "700" }
+    },
+    "line-height": {
+      "display-1": { "value": "64px" },
+      "display-2": { "value": "56px" },
+      "heading-1": { "value": "40px" },
+      "heading-2": { "value": "32px" },
+      "heading-3": { "value": "28px" },
+      "subheading": { "value": "24px" },
+      "body": { "value": "24px" },
+      "body-small": { "value": "20px" },
+      "button": { "value": "24px" },
+      "caption": { "value": "16px" },
+      "code": { "value": "20px" }
+    },
+    "letter-spacing": {
+      "default": { "value": "0px" }
+    }
+  }
+}

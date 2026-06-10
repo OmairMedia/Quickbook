@@ -1,0 +1,19 @@
+{
+  "shadow": {
+    "none": {
+      "value": "none"
+    },
+    "subtle": {
+      "value": "rgba(0, 0, 0, 0.01) 0px 0.667px 3.502px 0px, rgba(0, 0, 0, 0.016) 0px 2.933px 7.252px 0px, rgba(0, 0, 0, 0.02) 0px 7.2px 14.462px 0px, rgba(0, 0, 0, 0.024) 0px 13.867px 28.348px 0px, rgba(0, 0, 0, 0.03) 0px 23.333px 52.123px 0px, rgba(0, 0, 0, 0.04) 0px 36px 89px 0px"
+    },
+    "dropdown": {
+      "value": "rgba(0, 0, 0, 0.01) 0px 0.175px 1.041px 0px, rgba(0, 0, 0, 0.02) 0px 0.8px 2.925px 0px, rgba(0, 0, 0, 0.027) 0px 2.025px 7.847px 0px, rgba(0, 0, 0, 0.04) 0px 4px 18px 0px"
+    },
+    "navigation": {
+      "value": "rgba(0, 0, 0, 0.1) 0px 1px 0px 0px"
+    },
+    "focus": {
+      "value": "0px 0px 0px 3px rgba(98, 174, 240, 0.1)"
+    }
+  }
+}
