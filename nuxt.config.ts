@@ -13,6 +13,17 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     // Server-only secrets (never exposed to client)
+    session: {
+      password: process.env.NUXT_SESSION_PASSWORD,
+      name: "app-session",
+      cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax" as const,
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+      },
+    },
+    jwtSecret: process.env.JWT_SECRET,
     databaseUrl: process.env.DATABASE_URL,
     authSecret: process.env.AUTH_SECRET,
 

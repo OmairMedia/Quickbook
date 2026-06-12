@@ -1,26 +1,80 @@
-// Auth State and Logics
-import { reactive } from "vue";
+import { useAuthStore } from "../stores/auth.store";
+import { useAuthSession } from "./useAuthSession";
+import type {
+  LoginPayload,
+  RegisterPayload,
+  ForgotPasswordPayload,
+  ResetPasswordPayload,
+} from "../types/auth";
 
-export const useAuth = () => {
-  const form = reactive({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
+export function useAuth() {
+  const store = useAuthStore();
+  const userSession = useAuthSession();
 
-  const errors = reactive({
-    email: "",
-    password: "",
-    rememberMe: "",
-  });
+  const user = computed(() => store.user ?? userSession.user.value ?? null);
+  const isAuthenticated = computed(() => !!user.value);
+  const loading = computed(() => store.loading);
+  const error = computed(() => store.error);
 
-  function handleSubmit() {
-    // validate and submit
+  async function login(payload: LoginPayload) {
+    await store.login(payload);
+    await userSession.fetch();
+    await navigateTo("/app/notes");
+  }
+
+  async function register(payload: RegisterPayload) {
+    await store.register(payload);
+    await userSession.fetch();
+    await navigateTo("/app/notes");
+  }
+
+  async function logout() {
+    await store.logout();
+    await userSession.clearSession();
+    await navigateTo("/auth/login");
+  }
+
+  async function fetchSession() {
+    await store.fetchSession();
+    if (!store.user) {
+      await userSession.fetch();
+    }
+  }
+
+  async function refreshSession() {
+    await userSession.fetch();
+  }
+
+  async function forgotPassword(payload: ForgotPasswordPayload) {
+    await store.forgotPassword(payload);
+  }
+
+  async function resetPassword(payload: ResetPasswordPayload) {
+    await store.resetPassword(payload);
+    await navigateTo("/auth/login");
+  }
+
+  async function checkEmailAvailability(email: string) {
+    return store.checkEmailAvailability(email);
+  }
+
+  function clearError() {
+    store.clearError();
   }
 
   return {
-    form,
-    errors,
-    handleSubmit,
+    user,
+    isAuthenticated,
+    loading,
+    error,
+    login,
+    register,
+    logout,
+    fetchSession,
+    refreshSession,
+    forgotPassword,
+    resetPassword,
+    checkEmailAvailability,
+    clearError,
   };
-};
+}

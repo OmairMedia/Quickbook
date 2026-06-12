@@ -2,9 +2,9 @@
 // MAIN — Foundation layer using generated tokens
 // ============================================
 
-@use 'generated/tokens' as *;
-@use 'reset';
-@use 'typography';
+@use "generated/tokens.scss" as *;
+@use "reset";
+@use "typography";
 
 // ============================================
 // 1. ROOT ELEMENT DEFAULTS
@@ -198,103 +198,178 @@ body {
 // ============================================
 
 // Margin utilities (using token scale)
-@each $key, $value in (
-  1: $spacing-scale-1,
-  2: $spacing-scale-2,
-  3: $spacing-scale-3,
-  4: $spacing-scale-4,
-  5: $spacing-scale-5,
-  6: $spacing-scale-6,
-  7: $spacing-scale-7,
-  8: $spacing-scale-8,
-  9: $spacing-scale-9,
-  10: $spacing-scale-10,
-  11: $spacing-scale-11,
-  12: $spacing-scale-12
-) {
-  .mt-#{$key} { margin-block-start: $value; }
-  .mb-#{$key} { margin-block-end: $value; }
-  .ml-#{$key} { margin-inline-start: $value; }
-  .mr-#{$key} { margin-inline-end: $value; }
+@each $key,
+  $value
+    in (
+      1: $spacing-scale-1,
+      2: $spacing-scale-2,
+      3: $spacing-scale-3,
+      4: $spacing-scale-4,
+      5: $spacing-scale-5,
+      6: $spacing-scale-6,
+      7: $spacing-scale-7,
+      8: $spacing-scale-8,
+      9: $spacing-scale-9,
+      10: $spacing-scale-10,
+      11: $spacing-scale-11,
+      12: $spacing-scale-12
+    )
+{
+  .mt-#{$key} {
+    margin-block-start: $value;
+  }
+  .mb-#{$key} {
+    margin-block-end: $value;
+  }
+  .ml-#{$key} {
+    margin-inline-start: $value;
+  }
+  .mr-#{$key} {
+    margin-inline-end: $value;
+  }
 }
 
 // Padding utilities
-@each $key, $value in (
-  1: $spacing-scale-1,
-  2: $spacing-scale-2,
-  3: $spacing-scale-3,
-  4: $spacing-scale-4,
-  5: $spacing-scale-5,
-  6: $spacing-scale-6,
-  7: $spacing-scale-7,
-  8: $spacing-scale-8,
-  9: $spacing-scale-9,
-  10: $spacing-scale-10,
-  11: $spacing-scale-11,
-  12: $spacing-scale-12
-) {
-  .pt-#{$key} { padding-block-start: $value; }
-  .pb-#{$key} { padding-block-end: $value; }
-  .pl-#{$key} { padding-inline-start: $value; }
-  .pr-#{$key} { padding-inline-end: $value; }
-  .p-#{$key} { padding: $value; }
+@each $key,
+  $value
+    in (
+      1: $spacing-scale-1,
+      2: $spacing-scale-2,
+      3: $spacing-scale-3,
+      4: $spacing-scale-4,
+      5: $spacing-scale-5,
+      6: $spacing-scale-6,
+      7: $spacing-scale-7,
+      8: $spacing-scale-8,
+      9: $spacing-scale-9,
+      10: $spacing-scale-10,
+      11: $spacing-scale-11,
+      12: $spacing-scale-12
+    )
+{
+  .pt-#{$key} {
+    padding-block-start: $value;
+  }
+  .pb-#{$key} {
+    padding-block-end: $value;
+  }
+  .pl-#{$key} {
+    padding-inline-start: $value;
+  }
+  .pr-#{$key} {
+    padding-inline-end: $value;
+  }
+  .p-#{$key} {
+    padding: $value;
+  }
 }
 
 // Gap utility
-@each $key, $value in (
-  1: $spacing-scale-1,
-  2: $spacing-scale-2,
-  3: $spacing-scale-3,
-  4: $spacing-scale-4,
-  6: $spacing-scale-6,
-  8: $spacing-scale-8,
-  10: $spacing-scale-10
-) {
-  .gap-#{$key} { gap: $value; }
+@each $key,
+  $value
+    in (
+      1: $spacing-scale-1,
+      2: $spacing-scale-2,
+      3: $spacing-scale-3,
+      4: $spacing-scale-4,
+      6: $spacing-scale-6,
+      8: $spacing-scale-8,
+      10: $spacing-scale-10
+    )
+{
+  .gap-#{$key} {
+    gap: $value;
+  }
 }
 
 // ============================================
 // 8. BACKGROUND UTILITIES
 // ============================================
 
-.bg-page { background-color: $color-background-page; }
-.bg-surface { background-color: $color-background-surface; }
-.bg-subtle { background-color: $color-background-subtle; }
-.bg-blue-tint { background-color: $color-background-blue-tint; }
-.bg-warm-tint { background-color: $color-background-warm-tint; }
-.bg-peach-tint { background-color: $color-background-peach-tint; }
-.bg-pink-tint { background-color: $color-background-pink-tint; }
-.bg-transparent { background-color: $color-background-overlay; }
+.bg-page {
+  background-color: $color-background-page;
+}
+.bg-surface {
+  background-color: $color-background-surface;
+}
+.bg-subtle {
+  background-color: $color-background-subtle;
+}
+.bg-blue-tint {
+  background-color: $color-background-blue-tint;
+}
+.bg-warm-tint {
+  background-color: $color-background-warm-tint;
+}
+.bg-peach-tint {
+  background-color: $color-background-peach-tint;
+}
+.bg-pink-tint {
+  background-color: $color-background-pink-tint;
+}
+.bg-transparent {
+  background-color: $color-background-overlay;
+}
 
 // ============================================
 // 9. TEXT COLOR UTILITIES
 // ============================================
 
-.text-primary { color: $color-text-primary; }
-.text-secondary { color: $color-text-secondary; }
-.text-inverse { color: $color-text-inverse; }
-.text-link { color: $color-text-link; }
+.text-primary {
+  color: $color-text-primary;
+}
+.text-secondary {
+  color: $color-text-secondary;
+}
+.text-inverse {
+  color: $color-text-inverse;
+}
+.text-link {
+  color: $color-text-link;
+}
 
 // ============================================
 // 10. BORDER RADIUS UTILITIES
 // ============================================
 
-.rounded-none { border-radius: $border-radius-none; }
-.rounded-minimal { border-radius: $border-radius-minimal; }
-.rounded-standard { border-radius: $border-radius-standard; }
-.rounded-prominent { border-radius: $border-radius-prominent; }
-.rounded-circle { border-radius: $border-radius-circle; }
-.rounded-pill { border-radius: $border-radius-pill; }
+.rounded-none {
+  border-radius: $border-radius-none;
+}
+.rounded-minimal {
+  border-radius: $border-radius-minimal;
+}
+.rounded-standard {
+  border-radius: $border-radius-standard;
+}
+.rounded-prominent {
+  border-radius: $border-radius-prominent;
+}
+.rounded-circle {
+  border-radius: $border-radius-circle;
+}
+.rounded-pill {
+  border-radius: $border-radius-pill;
+}
 
 // ============================================
 // 11. SHADOW UTILITIES
 // ============================================
 
-.shadow-none { box-shadow: $shadow-none; }
-.shadow-subtle { box-shadow: $shadow-subtle; }
-.shadow-dropdown { box-shadow: $shadow-dropdown; }
-.shadow-navigation { box-shadow: $shadow-navigation; }
-.shadow-focus { box-shadow: $shadow-focus; }
+.shadow-none {
+  box-shadow: $shadow-none;
+}
+.shadow-subtle {
+  box-shadow: $shadow-subtle;
+}
+.shadow-dropdown {
+  box-shadow: $shadow-dropdown;
+}
+.shadow-navigation {
+  box-shadow: $shadow-navigation;
+}
+.shadow-focus {
+  box-shadow: $shadow-focus;
+}
 
 // ============================================
 // 12. VISUALLY HIDDEN (accessibility)

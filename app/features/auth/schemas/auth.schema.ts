@@ -1,16 +1,8 @@
 import { z } from "zod";
 
-// ============================================
-// CONSTANTS
-// ============================================
-
-const EMAIL_MAX_LENGTH = 254; // RFC 5321
+const EMAIL_MAX_LENGTH = 254;
 const PASSWORD_MIN_LENGTH = 8;
 const PASSWORD_MAX_LENGTH = 128;
-
-// ============================================
-// ERROR MESSAGES
-// ============================================
 
 const messages = {
   email: {
@@ -30,12 +22,14 @@ const messages = {
     symbol: "Password must contain at least one special character",
     common: "This password is too common. Please choose a stronger password.",
     noSpaces: "Password must not contain spaces",
+    mismatch: "Passwords do not match",
+  },
+  name: {
+    required: "Name is required",
+    minLength: "Name must be at least 2 characters",
+    maxLength: "Name must not exceed 100 characters",
   },
 };
-
-// ============================================
-// COMMON PASSWORD DENY-LIST (top 25 most used)
-// ============================================
 
 const COMMON_PASSWORDS = new Set([
   "password",
@@ -65,10 +59,6 @@ const COMMON_PASSWORDS = new Set([
   "zaq12wsx",
 ]);
 
-// ============================================
-// REGEX PATTERNS
-// ============================================
-
 const patterns = {
   email:
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
@@ -79,99 +69,17 @@ const patterns = {
   spaces: /\s/,
 };
 
-// ============================================
-// TYPE DEFINITIONS
-// ============================================
+const emailValidation = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .min(1, messages.email.required)
+  .max(EMAIL_MAX_LENGTH, messages.email.maxLength)
+  .email(messages.email.invalid)
+  .regex(patterns.email, messages.email.invalid);
 
-export interface LoginFormData {
-  email: string;
-  password: string;
-}
-
-export interface LoginFormErrors {
-  email?: string[];
-  password?: string[];
-}
-
-// ============================================
-// ASYNC EMAIL VALIDATOR
-// ============================================
-
-/**
- * Checks if an email is available (not already registered).
- * Replace this with your actual API call.
- */
-async function checkEmailAvailability(email: string): Promise<boolean> {
-  // Simulated API call — replace with real fetch/axios
-  const response = await fetch("/api/auth/check-email", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email }),
-  });
-
-  if (!response.ok) {
-    throw new Error("Email availability check failed");
-  }
-
-  const data = await response.json();
-  // API returns { available: true } or { available: false }
-  return data.available;
-}
-
-/**
- * Creates a debounced version of checkEmailAvailability to avoid
- * excessive API calls during typing.
- */
-export function createEmailValidator(debounceMs = 300) {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null;
-  let pendingEmail: string | null = null;
-  let pendingResolve: ((value: boolean) => void) | null = null;
-  let lastResult: { email: string; available: boolean } | null = null;
-
-  return async (email: string): Promise<boolean> => {
-    // Return cached result immediately if the email hasn't changed
-    if (lastResult && lastResult.email === email) {
-      return lastResult.available;
-    }
-
-    // Clear any pending timeout
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timeoutId = null;
-    }
-
-    // Return a promise that resolves after the debounce
-    return new Promise((resolve) => {
-      pendingEmail = email;
-      pendingResolve = resolve;
-
-      timeoutId = setTimeout(async () => {
-        try {
-          const available = await checkEmailAvailability(email);
-          lastResult = { email, available };
-          pendingResolve?.(available);
-        } catch {
-          // Let Zod handle the error via refinement
-          pendingResolve?.(false);
-        }
-        timeoutId = null;
-        pendingEmail = null;
-        pendingResolve = null;
-      }, debounceMs);
-    });
-  };
-}
-
-// ============================================
-// BASE SCHEMA (without async refinements)
-// ============================================
-
-/**
- * Synchronous password validation rules.
- * Extracted for reuse in registration, reset password, etc.
- */
 export const passwordValidation = z
-  .string({ required_error: messages.password.required })
+  .string()
   .min(PASSWORD_MIN_LENGTH, messages.password.minLength)
   .max(PASSWORD_MAX_LENGTH, messages.password.maxLength)
   .refine((val) => !patterns.spaces.test(val), messages.password.noSpaces)
@@ -184,131 +92,58 @@ export const passwordValidation = z
     messages.password.common,
   );
 
-/**
- * Synchronous email validation rules.
- */
-const emailValidation = z
-  .string({ required_error: messages.email.required })
-  .trim()
-  .toLowerCase()
-  .min(1, messages.email.required)
-  .max(EMAIL_MAX_LENGTH, messages.email.maxLength)
-  .email(messages.email.invalid)
-  .regex(patterns.email, messages.email.invalid);
-
-// ============================================
-// LOGIN SCHEMA
-// ============================================
-
-/**
- * Schema for login form validation.
- *
- * Usage (client-side, no async check):
- *   const result = loginSchema.safeParse(formData)
- *
- * Usage (with async email check):
- *   const result = await loginSchemaAsync.safeParseAsync(formData)
- */
 export const loginSchema = z.object({
   email: emailValidation,
-  password: passwordValidation,
+  password: z.string().min(1, messages.password.required),
 });
 
-// ============================================
-// LOGIN SCHEMA WITH ASYNC EMAIL CHECK
-// ============================================
+export const registerSchema = z
+  .object({
+    name: z
+      .string()
+      .min(2, messages.name.minLength)
+      .max(100, messages.name.maxLength),
+    email: emailValidation,
+    password: passwordValidation,
+    confirmPassword: z.string().min(1, messages.password.required),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: messages.password.mismatch,
+    path: ["confirmPassword"],
+  });
 
-/**
- * Async schema that validates email format AND checks availability via API.
- * Use this when you want real-time email validation against your backend.
- *
- * Usage:
- *   const result = await loginSchemaAsync.safeParseAsync(formData)
- *
- * For best UX, use `createEmailValidator()` with debouncing in your component.
- */
-export const loginSchemaAsync = z.object({
-  email: emailValidation.refine(
-    async (email) => {
-      try {
-        const available = await checkEmailAvailability(email);
-        return available;
-      } catch {
-        // If the API fails, we don't block the user — validation passes
-        // with a warning instead. Adjust based on your UX requirements.
-        return true;
-      }
-    },
-    { message: messages.email.unavailable },
-  ),
-  password: passwordValidation,
+export const forgotPasswordSchema = z.object({
+  email: emailValidation,
 });
 
-// ============================================
-// HELPER: CREATE DEBOUNCED VALIDATOR
-// ============================================
+export const resetPasswordSchema = z
+  .object({
+    token: z.string().min(1, "Reset token is required"),
+    password: passwordValidation,
+    confirmPassword: z.string().min(1, messages.password.required),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: messages.password.mismatch,
+    path: ["confirmPassword"],
+  });
 
-/**
- * Creates a debounced async validation function suitable for
- * real-time form validation with vee-validate, FormKit, or custom forms.
- *
- * Usage:
- *   const validateEmail = createDebouncedEmailValidator()
- *   // In your component on @input:
- *   const result = await validateEmail(email)
- */
-export function createDebouncedEmailValidator(debounceMs = 300) {
-  const checkAvailability = createEmailValidator(debounceMs);
+export const checkEmailSchema = z.object({
+  email: emailValidation,
+});
 
-  return async (email: string) => {
-    // First, run sync validation
-    const syncResult = emailValidation.safeParse(email);
+export type LoginInput = z.infer<typeof loginSchema>;
+export type RegisterInput = z.infer<typeof registerSchema>;
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
+export type CheckEmailInput = z.infer<typeof checkEmailSchema>;
 
-    if (!syncResult.success) {
-      return {
-        valid: false,
-        errors: syncResult.error.errors.map((e) => e.message),
-      };
-    }
-
-    // Then, check availability
-    try {
-      const available = await checkAvailability(email);
-      if (!available) {
-        return {
-          valid: false,
-          errors: [messages.email.unavailable],
-        };
-      }
-    } catch {
-      return {
-        valid: false,
-        errors: [messages.email.checkFailed],
-      };
-    }
-
-    return { valid: true, errors: [] };
-  };
+export interface LoginFormErrors {
+  email?: string[];
+  password?: string[];
 }
 
-// ============================================
-// HELPER: PARSE AND FORMAT ERRORS
-// ============================================
-
-/**
- * Parses Zod validation errors into a flat key-value format
- * suitable for form error display.
- *
- * Usage:
- *   const result = loginSchema.safeParse(data)
- *   if (!result.success) {
- *     const fieldErrors = formatZodErrors(result.error)
- *     // { email: ['Invalid email'], password: ['Too short'] }
- *   }
- */
-export function formatZodErrors(error: z.ZodError): LoginFormErrors {
-  const formatted: LoginFormErrors = {};
-
+export function formatZodErrors(error: z.ZodError): Record<string, string[]> {
+  const formatted: Record<string, string[]> = {};
   for (const issue of error.issues) {
     const path = issue.path[0] as string;
     if (!formatted[path]) {
@@ -316,13 +151,5 @@ export function formatZodErrors(error: z.ZodError): LoginFormErrors {
     }
     formatted[path]!.push(issue.message);
   }
-
   return formatted;
 }
-
-// ============================================
-// TYPE INFERENCE
-// ============================================
-
-export type LoginSchema = z.infer<typeof loginSchema>;
-export type LoginSchemaAsync = z.infer<typeof loginSchemaAsync>;

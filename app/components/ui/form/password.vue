@@ -71,7 +71,6 @@
 
 <script setup>
 import { ref } from "vue";
-import FormInput from "./FormInput.vue";
 
 defineProps({
   id: { type: String, required: true },

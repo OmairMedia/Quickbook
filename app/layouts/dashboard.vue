@@ -7,7 +7,7 @@
     <aside class="dashboard-sidebar" id="sidebar">
       <div class="dashboard-sidebar-header">
         <a href="/" class="dashboard-sidebar-logo">
-          <img src="logo.svg" alt="" class="dashboard-sidebar-logo-icon" />
+          <img src="/logo.svg" alt="" class="dashboard-sidebar-logo-icon" />
           <span class="dashboard-sidebar-logo-text">AppName</span>
         </a>
         <button class="dashboard-sidebar-toggle" id="sidebarToggle">

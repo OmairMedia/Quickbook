@@ -30,6 +30,7 @@
     "lint-staged": "^17.0.7",
     "prettier": "^3.8.4",
     "sass": "^1.100.0",
-    "style-dictionary": "^5.4.4"
+    "style-dictionary": "^5.4.4",
+    "vue-tsc": "^3.3.4"
   }
 }
