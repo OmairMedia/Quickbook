@@ -3,6 +3,7 @@ import {
   authenticateUser,
   generateAccessToken,
   generateRefreshToken,
+  toSessionUser,
 } from "~/server/utils/auth";
 
 export default defineEventHandler(async (event) => {
@@ -34,33 +35,17 @@ export default defineEventHandler(async (event) => {
   const refreshToken = generateRefreshToken(user);
   const expiresAt = Date.now() + 15 * 60 * 1000;
 
+  const sessionUser = toSessionUser(user);
+
   await setUserSession(event, {
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      avatar: user.avatar,
-      role: user.role,
-      emailVerified: user.emailVerified,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    },
+    user: sessionUser,
     accessToken,
     refreshToken,
     expiresAt,
   });
 
   return {
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      avatar: user.avatar,
-      role: user.role,
-      emailVerified: user.emailVerified,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    },
+    user: sessionUser,
     expiresIn: 900,
   };
 });

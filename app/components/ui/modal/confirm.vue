@@ -20,12 +20,12 @@
     </slot>
 
     <template #footer="{ close }">
-      <AppButton
+      <UiButtonAppButton
         variant="secondary"
         :label="cancelLabel"
         @click="onCancel(close)"
       />
-      <AppButton
+      <UiButtonAppButton
         :variant="confirmVariant"
         :label="confirmLabel"
         :loading="loading"
@@ -37,7 +37,7 @@
 
 <script setup>
 import AppModal from "./AppModal.vue";
-import AppButton from "@/components/button/AppButton.vue";
+import UiButtonAppButton from "@/components/button/AppButton.vue";
 
 defineProps({
   modelValue: { type: Boolean, default: false },

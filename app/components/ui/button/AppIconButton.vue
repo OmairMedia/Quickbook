@@ -1,5 +1,5 @@
 <template>
-  <AppButton
+  <UiButtonAppButton
     :label="label"
     :variant="variant"
     :size="size"
@@ -21,7 +21,7 @@
 
 <script setup>
 import { computed } from "vue";
-import AppButton from "./AppButton.vue";
+import UiButtonAppButton from "./AppButton.vue";
 
 const props = defineProps({
   label: { type: String, default: "" },

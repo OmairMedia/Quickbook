@@ -1,49 +1,65 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <FormField
+    <div v-if="formError" class="auth-form-error">
+      {{ formError }}
+    </div>
+
+    <UiFormField
       id="email"
       label="Email address"
       :required="true"
       :error="errors.email"
       description="We'll never share your email."
     >
-      <FormInput
+      <UiFormInput
         id="email"
         v-model="form.email"
         type="email"
         placeholder="you@example.com"
+        autocomplete="email"
         :error="errors.email"
+        @blur="validateField('email')"
       />
-    </FormField>
+    </UiFormField>
 
-    <FormField
+    <UiFormField
       id="password"
       label="Password"
       :required="true"
       :error="errors.password"
     >
-      <FormPassword
+      <UiFormPassword
         id="password"
         v-model="form.password"
+        autocomplete="current-password"
         :error="errors.password"
+        @blur="validateField('password')"
       />
-    </FormField>
+    </UiFormField>
 
-    <FormField id="remember" :required="true" :error="errors.rememberMe">
-      <FormCheckbox
+    <UiFormField id="remember" :error="errors.rememberMe">
+      <UiFormCheckbox
         id="remember"
         v-model="form.rememberMe"
         label="Remember Me"
         :error="errors.rememberMe"
       />
-    </FormField>
+    </UiFormField>
 
-    <button class="btn btn--primary" type="submit">Submit</button>
+    <UiButtonAppButton
+      type="submit"
+      variant="primary"
+      size="lg"
+      full-width
+      :loading="loading"
+      :label="loading ? 'Signing in...' : 'Sign in'"
+    />
   </form>
 </template>
 
-<script setup>
-import { useAuth } from "../composables/useAuth";
+<script setup lang="ts">
+import { useLoginForm } from "../composables/useLoginForm";
 
-const { form, errors } = useAuth();
+const { form, errors, formError, handleSubmit, loading, validateField } =
+  useLoginForm();
 </script>

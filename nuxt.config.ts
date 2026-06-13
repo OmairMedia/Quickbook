@@ -6,9 +6,14 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: true, // non-negotiable
-    typeCheck: true,
+    typeCheck: "build",
   },
-
+  vite: {
+    plugins: [],
+    optimizeDeps: {
+      include: ["@vue/devtools-core", "@vue/devtools-kit"],
+    },
+  },
   css: ["~/assets/styles/main.scss"],
 
   runtimeConfig: {

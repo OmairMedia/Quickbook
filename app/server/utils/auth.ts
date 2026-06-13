@@ -77,6 +77,30 @@ export async function sendVerificationEmail(user: ServerUser): Promise<void> {
   );
 }
 
+export interface SessionUser {
+  id: string;
+  email: string;
+  name: string;
+  avatar?: string;
+  role: string;
+  emailVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export function toSessionUser(user: ServerUser): SessionUser {
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    avatar: user.avatar,
+    role: user.role,
+    emailVerified: user.emailVerified,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  };
+}
+
 export async function useAuthenticatedUser(
   event: H3Event,
 ): Promise<ServerUser> {

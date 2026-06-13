@@ -1,6 +1,6 @@
 <template>
   <div class="form-password">
-    <FormInput
+    <UiFormInput
       :id="id"
       :model-value="modelValue"
       :type="visible ? 'text' : 'password'"
@@ -96,6 +96,8 @@ function toggleVisibility() {
 </script>
 
 <style lang="scss" scoped>
+@use "~/assets/styles/generated/tokens.scss" as *;
+
 .form-password {
   position: relative;
 
