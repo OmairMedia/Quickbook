@@ -27,6 +27,7 @@ defineProps<{
         <slot />
       </section>
     </div>
+    <UiToastContainer />
   </div>
 </template>
 

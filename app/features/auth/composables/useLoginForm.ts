@@ -4,10 +4,12 @@ import {
   type LoginInput,
 } from "~/features/auth/schemas/auth.schema";
 import { useAuthStore } from "~/features/auth/stores/auth.store";
+import { useToast } from "~/composables/useToast";
 
 export const useLoginForm = () => {
   const store = useAuthStore();
   const router = useRouter();
+  const { success, error: toastError } = useToast();
 
   const form = reactive<LoginInput>({
     email: "",
@@ -66,9 +68,10 @@ export const useLoginForm = () => {
 
     try {
       await store.login({ email: form.email, password: form.password });
+      success("Signed in successfully");
       await router.push("/app/notes");
     } catch {
-      // error is set in store
+      toastError(store.error || "Sign in failed. Please try again.");
     }
   }
 

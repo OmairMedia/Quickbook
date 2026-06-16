@@ -17,6 +17,8 @@
   --app-color-brown: #9C7054;
   --app-color-red-error: #F64932;
   --app-color-yellow-warning: #FFB110;
+  --app-color-green-success: #2E7D32;
+  --app-color-green-surface: #E8F5E9;
   --app-color-cream-default: #F6F5F4;
   --app-color-cream-warm: #FCF8F5;
   --app-color-cream-peach: #FFF5ED;
@@ -69,7 +71,7 @@
   --app-spacing-grid-columns: 12;
   --app-spacing-grid-gutter: 16px;
   --app-spacing-grid-card-gap: 24px;
-  --app-spacing-touch-target-minimum: 44px;
+  --app-spacing-touch-target-minimum: 50px;
   --app-spacing-touch-target-comfortable: 48px;
   --app-typography-family-primary: NotionInter, Inter, system-ui, -apple-system, sans-serif;
   --app-typography-family-secondary: NotionInter, system-ui, sans-serif;
@@ -142,6 +144,8 @@
   --app-color-interactive-icon-hover: var(--app-color-gray-light);
   --app-color-status-error-default: var(--app-color-red-error);
   --app-color-status-warning-default: var(--app-color-yellow-warning);
+  --app-color-status-success-default: var(--app-color-green-success);
+  --app-color-status-success-background: var(--app-color-green-surface);
   --app-color-status-info-default: var(--app-color-blue-deep);
   --app-color-status-info-background: var(--app-color-blue-surface);
   --app-color-agent-task-routing-default: var(--app-color-purple);
@@ -172,7 +176,7 @@
   --app-component-card-feature-padding: var(--app-spacing-scale-5);
   --app-component-card-feature-shadow: var(--app-shadow-none);
   --app-component-input-text-border-radius: var(--app-border-radius-standard);
-  --app-component-input-text-padding: var(--app-spacing-scale-3) var(--app-spacing-scale-4);
+  --app-component-input-text-padding: var(--app-spacing-scale-3);
   --app-component-input-text-font-size: var(--app-typography-size-body);
   --app-component-input-text-font-weight: var(--app-typography-weight-regular);
   --app-component-input-text-line-height: var(--app-typography-line-height-body);

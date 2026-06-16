@@ -111,6 +111,7 @@ import {
   usePasswordRequirements,
 } from "~/features/auth/composables/useAuthForm";
 import { authApi } from "~/features/auth/api/auth.api";
+import { useToast } from "~/composables/useToast";
 
 interface RegisterForm {
   name: string;
@@ -128,6 +129,7 @@ const { form, errors, formError, loading, validateField, validateAll, store } =
   );
 
 const router = useRouter();
+const { success, error: toastError } = useToast();
 const showPasswordRequirements = ref(false);
 const emailChecking = ref(false);
 const emailAvailable = ref<boolean | null>(null);
@@ -181,9 +183,10 @@ async function handleSubmit() {
 
   try {
     await store.register(form);
+    success("Account created successfully");
     await router.push("/app/notes");
   } catch {
-    // error is set in store
+    toastError(store.error || "Registration failed. Please try again.");
   }
 }
 </script>

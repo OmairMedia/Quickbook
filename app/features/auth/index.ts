@@ -13,7 +13,6 @@ export {
   resetPasswordSchema,
   checkEmailSchema,
   passwordValidation,
-  formatZodErrors,
 } from "./schemas/auth.schema";
 export type {
   LoginInput,

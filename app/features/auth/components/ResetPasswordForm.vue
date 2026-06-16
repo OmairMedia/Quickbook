@@ -84,6 +84,7 @@ import {
   usePasswordRequirements,
 } from "~/features/auth/composables/useAuthForm";
 import { useAuthStore } from "~/features/auth/stores/auth.store";
+import { useToast } from "~/composables/useToast";
 
 const route = useRoute();
 const store = useAuthStore();
@@ -104,6 +105,7 @@ const { form, errors, formError, loading, validateField, validateAll } =
     ["password", "confirmPassword"] as const,
   );
 
+const { success, error: toastError } = useToast();
 const submitted = ref(false);
 const showPasswordRequirements = ref(false);
 
@@ -122,9 +124,10 @@ async function handleSubmit() {
 
   try {
     await store.resetPassword(form);
+    success("Password reset successfully");
     submitted.value = true;
   } catch {
-    // error is set in store
+    toastError(store.error || "Password reset failed. Please try again.");
   }
 }
 </script>

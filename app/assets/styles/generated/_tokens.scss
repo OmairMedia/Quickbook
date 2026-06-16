@@ -1,23 +1,26 @@
+
 // Do not edit directly, this file was auto-generated.
 
 $color-black: #000000;
-$color-white: #ffffff;
-$color-gray-dark: #78736f;
-$color-gray-light: #f6f5f4;
-$color-blue-primary: #62aef0;
-$color-blue-deep: #0075de;
-$color-blue-navy: #097fe8;
-$color-blue-surface: #f2f9ff;
-$color-purple: #9849e8;
-$color-teal: #27918d;
-$color-orange: #ff6d00;
-$color-brown: #9c7054;
-$color-red-error: #f64932;
-$color-yellow-warning: #ffb110;
-$color-cream-default: #f6f5f4;
-$color-cream-warm: #fcf8f5;
-$color-cream-peach: #fff5ed;
-$color-cream-pink: #fef3f1;
+$color-white: #FFFFFF;
+$color-gray-dark: #78736F;
+$color-gray-light: #F6F5F4;
+$color-blue-primary: #62AEF0;
+$color-blue-deep: #0075DE;
+$color-blue-navy: #097FE8;
+$color-blue-surface: #F2F9FF;
+$color-purple: #9849E8;
+$color-teal: #27918D;
+$color-orange: #FF6D00;
+$color-brown: #9C7054;
+$color-red-error: #F64932;
+$color-yellow-warning: #FFB110;
+$color-green-success: #2E7D32;
+$color-green-surface: #E8F5E9;
+$color-cream-default: #F6F5F4;
+$color-cream-warm: #FCF8F5;
+$color-cream-peach: #FFF5ED;
+$color-cream-pink: #FEF3F1;
 $color-text-placeholder: rgba(0, 0, 0, 0.4);
 $color-background-overlay: rgba(0, 0, 0, 0);
 $color-border-transparent: transparent;
@@ -41,18 +44,8 @@ $border-radius-prominent: 12px;
 $border-radius-circle: 50%;
 $border-radius-pill: 1000px;
 $shadow-none: none;
-$shadow-subtle:
-  rgba(0, 0, 0, 0.01) 0px 0.667px 3.502px 0px,
-  rgba(0, 0, 0, 0.016) 0px 2.933px 7.252px 0px,
-  rgba(0, 0, 0, 0.02) 0px 7.2px 14.462px 0px,
-  rgba(0, 0, 0, 0.024) 0px 13.867px 28.348px 0px,
-  rgba(0, 0, 0, 0.03) 0px 23.333px 52.123px 0px,
-  rgba(0, 0, 0, 0.04) 0px 36px 89px 0px;
-$shadow-dropdown:
-  rgba(0, 0, 0, 0.01) 0px 0.175px 1.041px 0px,
-  rgba(0, 0, 0, 0.02) 0px 0.8px 2.925px 0px,
-  rgba(0, 0, 0, 0.027) 0px 2.025px 7.847px 0px,
-  rgba(0, 0, 0, 0.04) 0px 4px 18px 0px;
+$shadow-subtle: rgba(0, 0, 0, 0.01) 0px 0.667px 3.502px 0px, rgba(0, 0, 0, 0.016) 0px 2.933px 7.252px 0px, rgba(0, 0, 0, 0.02) 0px 7.2px 14.462px 0px, rgba(0, 0, 0, 0.024) 0px 13.867px 28.348px 0px, rgba(0, 0, 0, 0.03) 0px 23.333px 52.123px 0px, rgba(0, 0, 0, 0.04) 0px 36px 89px 0px;
+$shadow-dropdown: rgba(0, 0, 0, 0.01) 0px 0.175px 1.041px 0px, rgba(0, 0, 0, 0.02) 0px 0.8px 2.925px 0px, rgba(0, 0, 0, 0.027) 0px 2.025px 7.847px 0px, rgba(0, 0, 0, 0.04) 0px 4px 18px 0px;
 $shadow-navigation: rgba(0, 0, 0, 0.1) 0px 1px 0px 0px;
 $shadow-focus: 0px 0px 0px 3px rgba(98, 174, 240, 0.1);
 $spacing-scale-0: 0px;
@@ -78,12 +71,7 @@ $spacing-grid-gutter: 16px;
 $spacing-grid-card-gap: 24px;
 $spacing-touch-target-minimum: 50px;
 $spacing-touch-target-comfortable: 48px;
-$typography-family-primary:
-  NotionInter,
-  Inter,
-  system-ui,
-  -apple-system,
-  sans-serif;
+$typography-family-primary: NotionInter, Inter, system-ui, -apple-system, sans-serif;
 $typography-family-secondary: NotionInter, system-ui, sans-serif;
 $typography-size-display-1: 64px;
 $typography-size-display-2: 48px;
@@ -154,6 +142,8 @@ $color-interactive-icon-text: $color-black;
 $color-interactive-icon-hover: $color-gray-light;
 $color-status-error-default: $color-red-error;
 $color-status-warning-default: $color-yellow-warning;
+$color-status-success-default: $color-green-success;
+$color-status-success-background: $color-green-surface;
 $color-status-info-default: $color-blue-deep;
 $color-status-info-background: $color-blue-surface;
 $color-agent-task-routing-default: $color-purple;
@@ -239,6 +229,5 @@ $component-tab-item-inactive-text: $color-text-secondary;
 $component-tab-item-hover-text: $color-text-primary;
 $component-tab-item-hover-border-bottom: 1px solid $color-border-light;
 $component-tab-item-active-text: $color-text-primary;
-$component-tab-item-active-border-bottom: 2px solid
-  $color-interactive-primary-default;
+$component-tab-item-active-border-bottom: 2px solid $color-interactive-primary-default;
 $component-nav-dropdown-background: $color-background-surface;

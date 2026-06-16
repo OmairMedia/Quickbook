@@ -40,6 +40,7 @@
       <main class="dashboard-content">
         <!-- Page content goes here -->
       </main>
+      <UiToastContainer />
     </div>
   </div>
 </template>

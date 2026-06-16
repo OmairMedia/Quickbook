@@ -22,6 +22,10 @@
     "yellow": {
       "warning": { "value": "#FFB110" }
     },
+    "green": {
+      "success": { "value": "#2E7D32" },
+      "surface": { "value": "#E8F5E9" }
+    },
     "cream": {
       "default": { "value": "#F6F5F4" },
       "warm": { "value": "#FCF8F5" },

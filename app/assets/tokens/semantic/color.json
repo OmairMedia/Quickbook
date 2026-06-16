@@ -63,6 +63,10 @@
         "default": { "value": "{color.yellow.warning}" },
         "background": { "value": "rgba(255, 177, 16, 0.15)" }
       },
+      "success": {
+        "default": { "value": "{color.green.success}" },
+        "background": { "value": "{color.green.surface}" }
+      },
       "info": {
         "default": { "value": "{color.blue.deep}" },
         "background": { "value": "{color.blue.surface}" }

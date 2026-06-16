@@ -46,6 +46,7 @@
 import { ref } from "vue";
 import { forgotPasswordSchema } from "~/features/auth/schemas/auth.schema";
 import { useAuthForm } from "~/features/auth/composables/useAuthForm";
+import { useToast } from "~/composables/useToast";
 
 interface ForgotPasswordForm {
   email: string;
@@ -57,6 +58,7 @@ const { form, errors, formError, loading, validateField, validateAll, store } =
     "email",
   ] as const);
 
+const { success, error: toastError } = useToast();
 const submitted = ref(false);
 
 async function handleSubmit() {
@@ -65,9 +67,10 @@ async function handleSubmit() {
 
   try {
     await store.forgotPassword(form);
+    success("Reset link sent if the email exists");
     submitted.value = true;
   } catch {
-    // error is set in store
+    toastError(store.error || "Something went wrong. Please try again.");
   }
 }
 </script>
