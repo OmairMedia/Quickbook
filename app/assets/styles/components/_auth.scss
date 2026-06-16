@@ -1,0 +1,72 @@
+@use "~/assets/styles/generated/tokens.scss" as *;
+
+.auth-form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-scale-5;
+}
+
+.auth-form-error {
+  padding: $spacing-scale-3 $spacing-scale-4;
+  background-color: $color-status-error-background;
+  border: 1px solid $color-status-error-default;
+  border-radius: $border-radius-standard;
+  color: $color-status-error-default;
+  font-size: $typography-size-body-small;
+  line-height: $typography-line-height-body-small;
+}
+
+.auth-form-success {
+  padding: $spacing-scale-3 $spacing-scale-4;
+  background-color: $color-status-success-background;
+  border: 1px solid $color-status-success-default;
+  border-radius: $border-radius-standard;
+  color: $color-status-success-default;
+  font-size: $typography-size-body-small;
+  line-height: $typography-line-height-body-small;
+}
+
+.auth-password-requirements {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-scale-1;
+  padding: $spacing-scale-3 $spacing-scale-4;
+  background-color: $color-background-subtle;
+  border-radius: $border-radius-standard;
+}
+
+.auth-password-requirements-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-scale-2;
+  font-size: $typography-size-caption;
+  line-height: $typography-line-height-caption;
+  transition: color 0.15s ease;
+
+  &--met {
+    color: $color-status-success-default;
+  }
+
+  &--unmet {
+    color: $color-text-secondary;
+  }
+}
+
+.auth-footer {
+  margin-top: $spacing-scale-6;
+  text-align: center;
+  font-size: $typography-size-body-small;
+  color: $color-text-secondary;
+
+  a {
+    color: $color-text-link;
+    text-decoration: none;
+    font-weight: $typography-weight-medium;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

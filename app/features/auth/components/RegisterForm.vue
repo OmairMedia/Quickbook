@@ -151,6 +151,23 @@ function onEmailInput() {
   errors.email = [];
   emailAvailable.value = null;
   if (emailDebounceTimer) clearTimeout(emailDebounceTimer);
+  emailDebounceTimer = setTimeout(async () => {
+    if (!form.email) return;
+    const result = registerSchema.shape.email.safeParse(form.email);
+    if (!result.success) return;
+    emailChecking.value = true;
+    try {
+      const response = await authApi.checkEmailAvailability(form.email);
+      emailAvailable.value = response.available;
+      if (!response.available) {
+        errors.email = ["This email is already registered"];
+      }
+    } catch {
+      emailAvailable.value = null;
+    } finally {
+      emailChecking.value = false;
+    }
+  }, 400);
 }
 
 async function onEmailBlur() {

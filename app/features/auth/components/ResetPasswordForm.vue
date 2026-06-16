@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { resetPasswordSchema } from "~/features/auth/schemas/auth.schema";
 import {
   useAuthForm,
@@ -102,8 +102,15 @@ const { form, errors, formError, loading, validateField, validateAll } =
   useAuthForm<ResetPasswordForm>(
     resetPasswordSchema,
     { token: token.value, password: "", confirmPassword: "" },
-    ["password", "confirmPassword"] as const,
+    ["password", "confirmPassword", "token"] as const,
   );
+
+watch(
+  () => route.query.token,
+  (newToken) => {
+    form.token = (newToken as string) || "";
+  },
+);
 
 const { success, error: toastError } = useToast();
 const submitted = ref(false);

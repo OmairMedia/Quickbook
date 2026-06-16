@@ -39,14 +39,18 @@
       />
     </UiFormField>
 
-    <UiFormField class="mb-4" id="remember" :error="errors.rememberMe">
+    <div class="mb-4 checkbox-links">
       <UiFormCheckbox
         id="remember"
         v-model="form.rememberMe"
         label="Remember Me"
         :error="errors.rememberMe"
       />
-    </UiFormField>
+
+      <NuxtLink class="link" to="/auth/forgot-password"
+        >Forgot Password?</NuxtLink
+      >
+    </div>
 
     <UiButtonAppButton
       type="submit"
@@ -56,6 +60,11 @@
       :loading="loading"
       :label="loading ? 'Signing in...' : 'Sign in'"
     />
+
+    <div class="auth-footer">
+      Dont have account?
+      <NuxtLink to="/auth/register">Create A New One</NuxtLink>
+    </div>
   </form>
 </template>
 
@@ -66,4 +75,11 @@ const { form, errors, formError, handleSubmit, loading, validateField } =
   useLoginForm();
 </script>
 
-<style scoped></style>
+<style scoped>
+.checkbox-links {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+</style>

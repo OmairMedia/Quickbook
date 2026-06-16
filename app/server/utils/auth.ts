@@ -110,3 +110,27 @@ export async function useAuthenticatedUser(
   }
   return session.user as unknown as ServerUser;
 }
+
+export function generateResetToken(user: ServerUser): string {
+  console.warn(
+    `[auth stub] generateResetToken for: ${user.email}. ${NOT_CONFIGURED}`,
+  );
+  return crypto.randomUUID();
+}
+
+export function verifyResetToken(_token: string): {
+  valid: boolean;
+  email?: string;
+} {
+  console.warn(`[auth stub] verifyResetToken called. ${NOT_CONFIGURED}`);
+  return { valid: false };
+}
+
+export async function updatePassword(
+  email: string,
+  _newPassword: string,
+): Promise<void> {
+  console.warn(
+    `[auth stub] updatePassword called for: ${email}. ${NOT_CONFIGURED}`,
+  );
+}
