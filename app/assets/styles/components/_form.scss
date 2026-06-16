@@ -1,15 +1,27 @@
 // ============================================
 // FORMS — Input, Textarea, Select, Checkbox, Radio, Toggle
 // ============================================
-
-@use 'generated/tokens' as *;
-
+@use "~/assets/styles/generated/tokens.scss" as *;
 // ---------- Form Group ----------
 
+form {
+  width: 100%;
+  max-width: 400px;
+  padding: $spacing-scale-0 $spacing-scale-4;
+}
+
 .form-group {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: $spacing-scale-2;
+}
+
+.form-group--inline {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  gap: $spacing-scale-3;
 }
 
 // ---------- Label ----------
@@ -62,7 +74,10 @@
   background-color: $component-input-text-background;
   border: $component-input-text-border;
   border-radius: $component-input-text-border-radius;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
   appearance: none;
 
   &::placeholder {
@@ -110,7 +125,9 @@
   border: $component-input-textarea-border;
   border-radius: $component-input-textarea-border-radius;
   resize: vertical;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 
   &::placeholder {
     color: $color-text-placeholder;
@@ -142,7 +159,7 @@
 .form-select {
   width: 100%;
   height: $component-input-text-height;
-  padding: $component-input-text-padding;
+  padding-left: $component-input-text-padding;
   padding-right: $spacing-scale-10;
   font-family: $typography-family-primary;
   font-size: $component-input-text-font-size;
@@ -158,7 +175,9 @@
   border-radius: $component-input-text-border-radius;
   appearance: none;
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 
   &:focus {
     outline: none;
@@ -209,7 +228,9 @@
     border: $component-input-checkbox-border;
     border-radius: $component-input-checkbox-border-radius;
     background-color: $color-white;
-    transition: background-color 0.1s ease, border-color 0.1s ease;
+    transition:
+      background-color 0.1s ease,
+      border-color 0.1s ease;
   }
 
   &__icon {
@@ -218,7 +239,9 @@
     color: $component-input-checkbox-checkmark-color;
     opacity: 0;
     transform: scale(0.6);
-    transition: opacity 0.1s ease, transform 0.1s ease;
+    transition:
+      opacity 0.1s ease,
+      transform 0.1s ease;
   }
 
   &__label {
@@ -294,7 +317,9 @@
     background-color: $color-interactive-primary-default;
     opacity: 0;
     transform: scale(0.6);
-    transition: opacity 0.1s ease, transform 0.1s ease;
+    transition:
+      opacity 0.1s ease,
+      transform 0.1s ease;
   }
 
   &__label {

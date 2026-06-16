@@ -1,9 +1,7 @@
 // ============================================
 // TABLE — Data table with all variants
 // ============================================
-
-@use 'generated/tokens' as *;
-
+@use "~/assets/styles/generated/tokens.scss" as *;
 // ---------- Table Container (for horizontal scroll) ----------
 
 .table-container {
@@ -125,8 +123,12 @@
   color: $color-text-primary;
 
   // Alignment
-  &--right { text-align: right; }
-  &--center { text-align: center; }
+  &--right {
+    text-align: right;
+  }
+  &--center {
+    text-align: center;
+  }
 
   // Truncate
   &--truncate {

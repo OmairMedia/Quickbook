@@ -30,7 +30,7 @@
       "card-gap": { "value": "24px" }
     },
     "touch-target": {
-      "minimum": { "value": "44px" },
+      "minimum": { "value": "50px" },
       "comfortable": { "value": "48px" }
     }
   }

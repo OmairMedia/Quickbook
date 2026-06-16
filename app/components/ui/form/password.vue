@@ -100,14 +100,15 @@ function toggleVisibility() {
 
 .form-password {
   position: relative;
+  width: 100%;
 
   &__input {
-    padding-right: $spacing-scale-10;
+    padding-right: $spacing-scale-9;
   }
 
   &__toggle {
     position: absolute;
-    right: $spacing-scale-1;
+    right: $spacing-scale-0;
     top: 50%;
     transform: translateY(-50%);
     display: inline-flex;

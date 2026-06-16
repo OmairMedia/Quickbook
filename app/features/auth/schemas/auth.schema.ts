@@ -95,6 +95,7 @@ export const passwordValidation = z
 export const loginSchema = z.object({
   email: emailValidation,
   password: z.string().min(1, messages.password.required),
+  rememberMe: z.boolean(),
 });
 
 export const registerSchema = z
@@ -140,16 +141,4 @@ export type CheckEmailInput = z.infer<typeof checkEmailSchema>;
 export interface LoginFormErrors {
   email?: string[];
   password?: string[];
-}
-
-export function formatZodErrors(error: z.ZodError): Record<string, string[]> {
-  const formatted: Record<string, string[]> = {};
-  for (const issue of error.issues) {
-    const path = issue.path[0] as string;
-    if (!formatted[path]) {
-      formatted[path] = [];
-    }
-    formatted[path]!.push(issue.message);
-  }
-  return formatted;
 }

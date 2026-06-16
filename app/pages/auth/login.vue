@@ -9,7 +9,6 @@ import LoginForm from "~/features/auth/components/LoginForm.vue";
     hero-text="Sign in to access your notes and continue where you left off."
     form-heading="Sign in"
     form-subtitle="Enter your credentials to access your account"
-    :show-features="true"
   >
     <login-form />
   </NuxtLayout>

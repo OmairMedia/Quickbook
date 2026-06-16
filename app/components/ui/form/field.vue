@@ -47,10 +47,4 @@ const hasError = computed(() => {
 
 <style lang="scss" scoped>
 @use "~/assets/styles/generated/tokens.scss" as *;
-
-.form-group--inline {
-  flex-direction: row;
-  align-items: center;
-  gap: $spacing-scale-3;
-}
 </style>

@@ -41,7 +41,7 @@
         "background": { "value": "{color.background.surface}" },
         "border": { "value": "1px solid {color.border.default}" },
         "border-radius": { "value": "{border-radius.standard}" },
-        "padding": { "value": "{spacing.scale.3} {spacing.scale.4}" },
+        "padding": { "value": "{spacing.scale.3}" },
         "font-size": { "value": "{typography.size.body}" },
         "font-weight": { "value": "{typography.weight.regular}" },
         "line-height": { "value": "{typography.line-height.body}" },

@@ -1,18 +1,19 @@
 import { reactive, computed } from "vue";
 import {
-  loginSchema,
-  type LoginInput,
+  registerSchema,
+  type RegisterInput,
 } from "~/features/auth/schemas/auth.schema";
 import { useAuthStore } from "~/features/auth/stores/auth.store";
 
-export const useLoginForm = () => {
+export const useRegisterForm = () => {
   const store = useAuthStore();
   const router = useRouter();
 
-  const form = reactive<LoginInput>({
+  const form = reactive<RegisterInput>({
     email: "",
     password: "",
-    rememberMe: false,
+    confirmPassword: "",
+    name: "",
   });
 
   interface FormErrors {
@@ -31,7 +32,7 @@ export const useLoginForm = () => {
   const loading = computed(() => store.loading);
 
   function validateField(field: keyof typeof errors) {
-    const result = loginSchema.safeParse(form);
+    const result = registerSchema.safeParse(form);
     if (!result.success) {
       const fieldErrors = result.error.issues.filter(
         (i) => i.path[0] === field,
@@ -43,9 +44,9 @@ export const useLoginForm = () => {
   }
 
   function validateAll(): boolean {
-    const result = loginSchema.safeParse(form);
+    const result = registerSchema.safeParse(form);
     if (!result.success) {
-      const fields = ["email", "password", "rememberMe"] as const;
+      const fields = ["name", "email", "password", "confirmPassword"] as const;
       for (const field of fields) {
         errors[field] = result.error.issues
           .filter((i) => i.path[0] === field)
@@ -53,7 +54,7 @@ export const useLoginForm = () => {
       }
       return false;
     }
-    const fields = ["email", "password", "rememberMe"] as const;
+    const fields = ["name", "email", "password", "confirmPassword"] as const;
     for (const field of fields) {
       errors[field] = [];
     }
@@ -65,7 +66,12 @@ export const useLoginForm = () => {
     if (!validateAll()) return;
 
     try {
-      await store.login({ email: form.email, password: form.password });
+      await store.register({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        confirmPassword: form.confirmPassword,
+      });
       await router.push("/app/notes");
     } catch {
       // error is set in store

@@ -2,7 +2,7 @@
 // BUTTONS — All variants, sizes, states
 // ============================================
 
-@use 'generated/tokens' as *;
+@use "~/assets/styles/generated/tokens.scss" as *;
 
 // ---------- Base Button ----------
 
@@ -265,11 +265,13 @@
     border-radius: 0;
 
     &:first-child {
-      border-radius: $component-button-border-radius 0 0 $component-button-border-radius;
+      border-radius: $component-button-border-radius 0 0
+        $component-button-border-radius;
     }
 
     &:last-child {
-      border-radius: 0 $component-button-border-radius $component-button-border-radius 0;
+      border-radius: 0 $component-button-border-radius
+        $component-button-border-radius 0;
     }
 
     & + .btn {

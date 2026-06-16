@@ -5,6 +5,7 @@
     </div>
 
     <UiFormField
+      class="mb-4"
       id="email"
       label="Email address"
       :required="true"
@@ -23,6 +24,7 @@
     </UiFormField>
 
     <UiFormField
+      class="mb-4"
       id="password"
       label="Password"
       :required="true"
@@ -37,7 +39,7 @@
       />
     </UiFormField>
 
-    <UiFormField id="remember" :error="errors.rememberMe">
+    <UiFormField class="mb-4" id="remember" :error="errors.rememberMe">
       <UiFormCheckbox
         id="remember"
         v-model="form.rememberMe"
@@ -63,3 +65,5 @@ import { useLoginForm } from "../composables/useLoginForm";
 const { form, errors, formError, handleSubmit, loading, validateField } =
   useLoginForm();
 </script>
+
+<style scoped></style>
