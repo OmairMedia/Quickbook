@@ -8,11 +8,17 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "tokens": "style-dictionary build"
+    "tokens": "style-dictionary build",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
     "@nuxt/image": "^2.0.0",
     "@pinia/nuxt": "^0.11.3",
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^12.11.1",
+    "drizzle-orm": "^0.45.2",
     "nuxt": "^4.4.7",
     "nuxt-auth-utils": "^0.5.29",
     "pinia": "^3.0.4",
@@ -23,7 +29,10 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.16.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.9.2",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^10.4.1",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.7",

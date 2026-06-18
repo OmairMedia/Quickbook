@@ -1,4 +1,8 @@
 import type { H3Event } from "h3";
+import { eq } from "drizzle-orm";
+import bcrypt from "bcryptjs";
+import { db } from "~/server/utils/db";
+import { users, refreshTokens, passwordResetTokens } from "~/server/db/schema";
 
 export interface ServerUser {
   id: string;
@@ -15,26 +19,55 @@ export interface ServerUserWithPassword extends ServerUser {
   passwordHash: string;
 }
 
-const NOT_CONFIGURED =
-  "Database not configured. This is a stub — implement with Drizzle ORM when ready.";
-
 export async function authenticateUser(
   email: string,
-  _password: string,
+  password: string,
 ): Promise<ServerUser | null> {
-  console.warn(
-    `[auth stub] authenticateUser called for: ${email}. ${NOT_CONFIGURED}`,
-  );
-  return null;
+  const row = db
+    .select()
+    .from(users)
+    .where(eq(users.email, email.toLowerCase()))
+    .get();
+
+  if (!row) return null;
+
+  const match = await bcrypt.compare(password, row.passwordHash);
+  if (!match) return null;
+
+  return {
+    id: row.id,
+    email: row.email,
+    name: row.name,
+    avatar: row.avatar ?? undefined,
+    role: row.role,
+    emailVerified: row.emailVerified,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
+  };
 }
 
 export async function findUserByEmail(
   email: string,
 ): Promise<ServerUserWithPassword | null> {
-  console.warn(
-    `[auth stub] findUserByEmail called for: ${email}. ${NOT_CONFIGURED}`,
-  );
-  return null;
+  const row = db
+    .select()
+    .from(users)
+    .where(eq(users.email, email.toLowerCase()))
+    .get();
+
+  if (!row) return null;
+
+  return {
+    id: row.id,
+    email: row.email,
+    name: row.name,
+    avatar: row.avatar ?? undefined,
+    role: row.role,
+    emailVerified: row.emailVerified,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
+    passwordHash: row.passwordHash,
+  };
 }
 
 export async function createUser(data: {
@@ -42,39 +75,101 @@ export async function createUser(data: {
   password: string;
   name: string;
 }): Promise<ServerUser> {
-  console.warn(
-    `[auth stub] createUser called for: ${data.email}. ${NOT_CONFIGURED}`,
-  );
-  throw createError({ statusCode: 501, statusMessage: NOT_CONFIGURED });
+  const id = crypto.randomUUID();
+  const now = new Date().toISOString();
+  const passwordHash = await bcrypt.hash(data.password, 12);
+
+  db.insert(users)
+    .values({
+      id,
+      email: data.email.toLowerCase(),
+      name: data.name,
+      passwordHash,
+      role: "user",
+      emailVerified: false,
+      createdAt: now,
+      updatedAt: now,
+    })
+    .run();
+
+  return {
+    id,
+    email: data.email.toLowerCase(),
+    name: data.name,
+    role: "user",
+    emailVerified: false,
+    createdAt: now,
+    updatedAt: now,
+  };
 }
 
-export function generateAccessToken(user: ServerUser): string {
-  console.warn(
-    `[auth stub] generateAccessToken for: ${user.email}. ${NOT_CONFIGURED}`,
-  );
-  throw createError({ statusCode: 501, statusMessage: NOT_CONFIGURED });
+export function generateAccessToken(_user: ServerUser): string {
+  return crypto.randomUUID();
 }
 
 export function generateRefreshToken(user: ServerUser): string {
-  console.warn(
-    `[auth stub] generateRefreshToken for: ${user.email}. ${NOT_CONFIGURED}`,
-  );
-  throw createError({ statusCode: 501, statusMessage: NOT_CONFIGURED });
+  const id = crypto.randomUUID();
+  const token = crypto.randomUUID();
+  const now = new Date().toISOString();
+  const expiresAt = new Date(
+    Date.now() + 30 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+
+  db.insert(refreshTokens)
+    .values({ id, userId: user.id, token, expiresAt, createdAt: now })
+    .run();
+
+  return token;
 }
 
-export function verifyRefreshToken(_token: string): ServerUser {
-  console.warn(`[auth stub] verifyRefreshToken called. ${NOT_CONFIGURED}`);
-  throw createError({ statusCode: 501, statusMessage: NOT_CONFIGURED });
+export function verifyRefreshToken(token: string): ServerUser {
+  const row = db
+    .select()
+    .from(refreshTokens)
+    .where(eq(refreshTokens.token, token))
+    .get();
+
+  if (!row) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Invalid refresh token",
+    });
+  }
+
+  if (new Date(row.expiresAt) < new Date()) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Refresh token expired",
+    });
+  }
+
+  const user = db.select().from(users).where(eq(users.id, row.userId)).get();
+
+  if (!user) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "User not found",
+    });
+  }
+
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    avatar: user.avatar ?? undefined,
+    role: user.role,
+    emailVerified: user.emailVerified,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  };
 }
 
-export async function invalidateRefreshToken(_token: string): Promise<void> {
-  console.warn(`[auth stub] invalidateRefreshToken called. ${NOT_CONFIGURED}`);
+export async function invalidateRefreshToken(token: string): Promise<void> {
+  db.delete(refreshTokens).where(eq(refreshTokens.token, token)).run();
 }
 
-export async function sendVerificationEmail(user: ServerUser): Promise<void> {
-  console.warn(
-    `[auth stub] sendVerificationEmail for: ${user.email}. ${NOT_CONFIGURED}`,
-  );
+export async function sendVerificationEmail(_user: ServerUser): Promise<void> {
+  console.log(`[auth] Verification email would be sent to: ${_user.email}`);
 }
 
 export interface SessionUser {
@@ -108,29 +203,68 @@ export async function useAuthenticatedUser(
   if (!session?.user) {
     throw createError({ statusCode: 401, statusMessage: "Not authenticated" });
   }
-  return session.user as unknown as ServerUser;
+  const user = session.user as unknown as ServerUser;
+
+  const fresh = db.select().from(users).where(eq(users.id, user.id)).get();
+
+  if (!fresh) {
+    throw createError({ statusCode: 401, statusMessage: "User not found" });
+  }
+
+  return {
+    id: fresh.id,
+    email: fresh.email,
+    name: fresh.name,
+    avatar: fresh.avatar ?? undefined,
+    role: fresh.role,
+    emailVerified: fresh.emailVerified,
+    createdAt: fresh.createdAt,
+    updatedAt: fresh.updatedAt,
+  };
 }
 
 export function generateResetToken(user: ServerUser): string {
-  console.warn(
-    `[auth stub] generateResetToken for: ${user.email}. ${NOT_CONFIGURED}`,
-  );
-  return crypto.randomUUID();
+  const id = crypto.randomUUID();
+  const token = crypto.randomUUID();
+  const now = new Date().toISOString();
+  const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+
+  db.insert(passwordResetTokens)
+    .values({ id, email: user.email, token, expiresAt, createdAt: now })
+    .run();
+
+  return token;
 }
 
-export function verifyResetToken(_token: string): {
+export function verifyResetToken(token: string): {
   valid: boolean;
   email?: string;
 } {
-  console.warn(`[auth stub] verifyResetToken called. ${NOT_CONFIGURED}`);
-  return { valid: false };
+  const row = db
+    .select()
+    .from(passwordResetTokens)
+    .where(eq(passwordResetTokens.token, token))
+    .get();
+
+  if (!row) return { valid: false };
+  if (new Date(row.expiresAt) < new Date()) return { valid: false };
+
+  return { valid: true, email: row.email };
 }
 
 export async function updatePassword(
   email: string,
-  _newPassword: string,
+  newPassword: string,
 ): Promise<void> {
-  console.warn(
-    `[auth stub] updatePassword called for: ${email}. ${NOT_CONFIGURED}`,
-  );
+  const passwordHash = await bcrypt.hash(newPassword, 12);
+  const now = new Date().toISOString();
+
+  db.update(users)
+    .set({ passwordHash, updatedAt: now })
+    .where(eq(users.email, email.toLowerCase()))
+    .run();
+
+  db.delete(passwordResetTokens)
+    .where(eq(passwordResetTokens.email, email.toLowerCase()))
+    .run();
 }
