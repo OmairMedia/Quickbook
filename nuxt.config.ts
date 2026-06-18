@@ -31,6 +31,7 @@ export default defineNuxtConfig({
     jwtSecret: process.env.JWT_SECRET,
     databaseUrl: process.env.DATABASE_URL,
     authSecret: process.env.AUTH_SECRET,
+    resendApiKey: process.env.RESEND_API_KEY,
 
     // Public (exposed to client)
     public: {

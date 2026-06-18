@@ -1,9 +1,6 @@
 import { forgotPasswordSchema } from "~/features/auth/schemas/auth.schema";
-import {
-  findUserByEmail,
-  generateResetToken,
-  sendVerificationEmail,
-} from "~/server/utils/auth";
+import { findUserByEmail, generateResetToken } from "~/server/utils/auth";
+import { sendPasswordResetEmail } from "~/server/utils/email";
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, (body) =>
@@ -24,8 +21,7 @@ export default defineEventHandler(async (event) => {
 
   if (user) {
     const token = generateResetToken(user);
-    console.log(`[auth] Reset token for ${email}: ${token}`);
-    await sendVerificationEmail(user);
+    await sendPasswordResetEmail(email, token);
   }
 
   return { success: true };

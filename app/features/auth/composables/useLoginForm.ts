@@ -69,7 +69,7 @@ export const useLoginForm = () => {
     try {
       await store.login({ email: form.email, password: form.password });
       success("Signed in successfully");
-      await router.push("/app/notes");
+      await router.push("/dashboard");
     } catch {
       toastError(store.error || "Sign in failed. Please try again.");
     }

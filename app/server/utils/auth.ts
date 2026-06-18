@@ -2,7 +2,16 @@ import type { H3Event } from "h3";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { db } from "~/server/utils/db";
-import { users, refreshTokens, passwordResetTokens } from "~/server/db/schema";
+import {
+  users,
+  refreshTokens,
+  passwordResetTokens,
+  emailVerificationTokens,
+} from "~/server/db/schema";
+import {
+  sendVerificationEmail as sendEmailVerification,
+  sendPasswordResetEmail,
+} from "~/server/utils/email";
 
 export interface ServerUser {
   id: string;
@@ -168,8 +177,23 @@ export async function invalidateRefreshToken(token: string): Promise<void> {
   db.delete(refreshTokens).where(eq(refreshTokens.token, token)).run();
 }
 
-export async function sendVerificationEmail(_user: ServerUser): Promise<void> {
-  console.log(`[auth] Verification email would be sent to: ${_user.email}`);
+export async function sendVerificationEmail(user: ServerUser): Promise<void> {
+  const token = crypto.randomUUID();
+  const now = new Date().toISOString();
+  const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+
+  db.insert(emailVerificationTokens)
+    .values({
+      id: crypto.randomUUID(),
+      userId: user.id,
+      email: user.email,
+      token,
+      expiresAt,
+      createdAt: now,
+    })
+    .run();
+
+  await sendEmailVerification(user.email, token);
 }
 
 export interface SessionUser {

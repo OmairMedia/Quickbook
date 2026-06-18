@@ -31,6 +31,14 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  if (!user.emailVerified) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Email not verified",
+      data: { code: "EMAIL_NOT_VERIFIED" },
+    });
+  }
+
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
   const expiresAt = Date.now() + 15 * 60 * 1000;

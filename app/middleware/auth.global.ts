@@ -21,6 +21,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     "/auth/register",
     "/auth/forgot-password",
     "/auth/reset-password",
+    "/auth/verify-email",
   ];
 
   if (authPages.includes(to.path) && userSession.user.value) {

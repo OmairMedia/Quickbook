@@ -40,7 +40,9 @@ export const useAuthStore = defineStore("auth", {
         const message =
           err?.data?.code === "INVALID_CREDENTIALS"
             ? "Invalid email or password"
-            : "An error occurred during login. Please try again.";
+            : err?.data?.code === "EMAIL_NOT_VERIFIED"
+              ? "Please verify your email address before signing in. Check your inbox."
+              : "An error occurred during login. Please try again.";
         this.error = message;
         throw err;
       } finally {
