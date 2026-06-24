@@ -38,9 +38,9 @@ export const useAuthStore = defineStore("auth", {
         return response;
       } catch (err: any) {
         const message =
-          err?.data?.code === "INVALID_CREDENTIALS"
+          err?.data?.data?.code === "INVALID_CREDENTIALS"
             ? "Invalid email or password"
-            : err?.data?.code === "EMAIL_NOT_VERIFIED"
+            : err?.data?.data?.code === "EMAIL_NOT_VERIFIED"
               ? "Please verify your email address before signing in. Check your inbox."
               : "An error occurred during login. Please try again.";
         this.error = message;
@@ -60,7 +60,7 @@ export const useAuthStore = defineStore("auth", {
         return response;
       } catch (err: any) {
         const message =
-          err?.data?.code === "EMAIL_EXISTS"
+          err?.data?.data?.code === "EMAIL_EXISTS"
             ? "This email is already registered"
             : "An error occurred during registration. Please try again.";
         this.error = message;

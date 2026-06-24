@@ -1,8 +1,8 @@
 import type { H3Event } from "h3";
 import { eq, like, and, sql, desc } from "drizzle-orm";
-import { db } from "~/server/utils/db";
-import { notes } from "~/server/db/schema";
-import { useAuthenticatedUser } from "~/server/utils/auth";
+import { db } from "../../server/utils/db";
+import { notes } from "../../server/db/schema";
+import { useAuthenticatedUser } from "../../server/utils/auth";
 
 export interface ServerNote {
   id: string;
@@ -23,7 +23,7 @@ export interface NotesQuery {
 }
 
 export interface PaginatedResult<T> {
-  data: T[];
+  notes: T[];
   total: number;
   page: number;
   limit: number;
@@ -67,7 +67,7 @@ export async function getNotes(
     .all();
 
   return {
-    data: rows.map(toServerNote),
+    notes: rows.map(toServerNote),
     total,
     page,
     limit,

@@ -67,9 +67,13 @@ export const useLoginForm = () => {
     if (!validateAll()) return;
 
     try {
-      await store.login({ email: form.email, password: form.password });
+      await store.login({
+        email: form.email,
+        password: form.password,
+        rememberMe: form.rememberMe,
+      });
       success("Signed in successfully");
-      await router.push("/dashboard");
+      router.push("/dashboard");
     } catch {
       toastError(store.error || "Sign in failed. Please try again.");
     }

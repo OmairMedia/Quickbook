@@ -4,6 +4,7 @@
       <div class="note-list-search">
         <span class="note-list-search-icon">&#x1F50D;</span>
         <input
+          v-model="search"
           type="text"
           placeholder="Search notes..."
           class="note-list-search-input"
@@ -21,6 +22,12 @@
             : "No notes yet. Create your first note!"
         }}
       </p>
+      <UiButtonAppButton
+        v-if="!searchQuery"
+        variant="primary"
+        label="Create note"
+        @click="$emit('create')"
+      />
     </div>
 
     <div v-else class="note-list-grid">
@@ -55,6 +62,7 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import NoteCard from "./NoteCard.vue";
 import NoteSkeleton from "./NoteSkeleton.vue";
 
@@ -68,7 +76,17 @@ const props = defineProps({
   searchQuery: { type: String, default: "" },
 });
 
-defineEmits(["toggle-favorite", "page-change", "update:searchQuery"]);
+const emit = defineEmits([
+  "toggle-favorite",
+  "page-change",
+  "update:searchQuery",
+  "create",
+]);
+
+const search = computed({
+  get: () => props.searchQuery,
+  set: (val) => emit("update:searchQuery", val),
+});
 </script>
 
 <style scoped>
@@ -141,7 +159,7 @@ defineEmits(["toggle-favorite", "page-change", "update:searchQuery"]);
 .note-list-empty-text {
   font-size: var(--app-typography-size-body);
   color: var(--app-color-gray-dark);
-  margin: 0;
+  margin: 0 0 var(--app-spacing-scale-4);
 }
 
 .note-list-pagination {

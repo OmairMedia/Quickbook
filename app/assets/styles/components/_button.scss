@@ -2,6 +2,7 @@
 // BUTTONS — All variants, sizes, states
 // ============================================
 
+@use "sass:color";
 @use "~/assets/styles/generated/tokens.scss" as *;
 
 // ---------- Base Button ----------
@@ -117,11 +118,17 @@
   color: $color-white;
 
   &:hover:not(:disabled) {
-    background-color: darken($color-status-error-default, 8%);
+    background-color: color.adjust(
+      $color-status-error-default,
+      $lightness: -8%
+    );
   }
 
   &:active:not(:disabled) {
-    background-color: darken($color-status-error-default, 14%);
+    background-color: color.adjust(
+      $color-status-error-default,
+      $lightness: -14%
+    );
   }
 
   &:disabled,

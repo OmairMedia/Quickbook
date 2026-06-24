@@ -1,6 +1,6 @@
 import { updateNoteSchema } from "~/features/notes/schemas/note.schema";
-import { getNoteById, updateNote } from "~/server/utils/notes";
-import { useAuthenticatedUser } from "~/server/utils/auth";
+import { getNoteById, updateNote } from "../../utils/notes";
+import { useAuthenticatedUser } from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
   await useAuthenticatedUser(event);

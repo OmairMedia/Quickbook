@@ -1,5 +1,5 @@
-import { getNoteById, deleteNote } from "~/server/utils/notes";
-import { useAuthenticatedUser } from "~/server/utils/auth";
+import { getNoteById } from "../../utils/notes";
+import { useAuthenticatedUser } from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
   await useAuthenticatedUser(event);
@@ -12,12 +12,11 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const existing = await getNoteById(event, id);
-  if (!existing) {
+  const note = await getNoteById(event, id);
+
+  if (!note) {
     throw createError({ statusCode: 404, statusMessage: "Note not found" });
   }
 
-  await deleteNote(event, id);
-
-  return { success: true };
+  return note;
 });

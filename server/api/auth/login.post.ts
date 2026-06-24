@@ -1,16 +1,15 @@
-import { registerSchema } from "~/features/auth/schemas/auth.schema";
+import { loginSchema } from "~/features/auth/schemas/auth.schema";
 import {
-  findUserByEmail,
-  createUser,
+  authenticateUser,
   generateAccessToken,
   generateRefreshToken,
-  sendVerificationEmail,
+  sendVerificationEmailAuth,
   toSessionUser,
-} from "~/server/utils/auth";
+} from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, (body) =>
-    registerSchema.safeParse(body),
+    loginSchema.safeParse(body),
   );
 
   if (!body.success) {
@@ -21,20 +20,26 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const { email, password, name } = body.data;
+  const { email, password } = body.data;
 
-  const existingUser = await findUserByEmail(email);
-  if (existingUser) {
+  const user = await authenticateUser(email, password);
+
+  if (!user) {
     throw createError({
-      statusCode: 409,
-      statusMessage: "Email already registered",
-      data: { code: "EMAIL_EXISTS" },
+      statusCode: 401,
+      statusMessage: "Invalid credentials",
+      data: { code: "INVALID_CREDENTIALS" },
     });
   }
 
-  const user = await createUser({ email, password, name });
-
-  await sendVerificationEmail(user);
+  if (!user.emailVerified) {
+    await sendVerificationEmailAuth(user);
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Email not verified",
+      data: { code: "EMAIL_NOT_VERIFIED" },
+    });
+  }
 
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
@@ -49,7 +54,6 @@ export default defineEventHandler(async (event) => {
     expiresAt,
   });
 
-  setResponseStatus(event, 201);
   return {
     user: sessionUser,
     expiresIn: 900,

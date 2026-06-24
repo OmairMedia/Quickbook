@@ -1,5 +1,13 @@
 import { useAuthSession } from "~/features/auth/composables/useAuthSession";
 
+const publicPages = [
+  "/auth/login",
+  "/auth/register",
+  "/auth/forgot-password",
+  "/auth/reset-password",
+  "/auth/verify-email",
+];
+
 export default defineNuxtRouteMiddleware(async (to) => {
   if (to.path.startsWith("/api/") || to.path.startsWith("/_nuxt/")) {
     return;
@@ -16,15 +24,15 @@ export default defineNuxtRouteMiddleware(async (to) => {
     }
   }
 
-  const authPages = [
-    "/auth/login",
-    "/auth/register",
-    "/auth/forgot-password",
-    "/auth/reset-password",
-    "/auth/verify-email",
-  ];
+  const isPublic = publicPages.includes(to.path);
 
-  if (authPages.includes(to.path) && userSession.user.value) {
+  if (isPublic && userSession.user.value) {
     return navigateTo("/dashboard");
+  }
+
+  if (!isPublic && !userSession.user.value) {
+    return navigateTo(
+      `/auth/login?redirect=${encodeURIComponent(to.fullPath)}`,
+    );
   }
 });

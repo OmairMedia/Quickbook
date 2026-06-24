@@ -1,5 +1,5 @@
 import { resetPasswordSchema } from "~/features/auth/schemas/auth.schema";
-import { verifyResetToken, updatePassword } from "~/server/utils/auth";
+import { verifyResetToken, updatePassword } from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, (body) =>

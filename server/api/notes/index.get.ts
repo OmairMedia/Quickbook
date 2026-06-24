@@ -1,5 +1,5 @@
-import { getNotes } from "~/server/utils/notes";
-import { useAuthenticatedUser } from "~/server/utils/auth";
+import { getNotes } from "../../utils/notes";
+import { useAuthenticatedUser } from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
   await useAuthenticatedUser(event);

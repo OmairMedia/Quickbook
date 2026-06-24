@@ -1,4 +1,4 @@
-import { invalidateRefreshToken } from "~/server/utils/auth";
+import { invalidateRefreshToken } from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
   const session = await getUserSession(event);

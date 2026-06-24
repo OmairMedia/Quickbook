@@ -3,7 +3,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
   toSessionUser,
-} from "~/server/utils/auth";
+} from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
   const session = await getUserSession(event);

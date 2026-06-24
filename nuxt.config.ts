@@ -35,7 +35,7 @@ export default defineNuxtConfig({
 
     // Public (exposed to client)
     public: {
-      appUrl: process.env.APP_URL,
+      appUrl: process.env.PUBLIC_APP_URL,
     },
   },
 

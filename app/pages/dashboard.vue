@@ -13,9 +13,10 @@
       :notes="notes"
       :loading="loading"
       :pagination="pagination"
-      :search-query="searchQuery"
+      v-model:search-query="searchQuery"
       @page-change="setPage"
       @toggle-favorite="handleToggleFavorite"
+      @create="showCreateForm = true"
     />
 
     <div

@@ -1,5 +1,5 @@
 import { checkEmailSchema } from "~/features/auth/schemas/auth.schema";
-import { findUserByEmail } from "~/server/utils/auth";
+import { findUserByEmail } from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, (body) =>

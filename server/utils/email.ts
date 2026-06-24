@@ -31,19 +31,28 @@ async function send(options: SendEmailOptions) {
 
   if (!resendApiKey) {
     console.log(`[email] No RESEND_API_KEY configured. Email not sent.
-To: ${options.to}
+To: ${[options.to]}
 Subject: ${options.subject}
 Body: ${options.html}`);
     return;
   }
 
   try {
-    await getResend().emails.send({
-      from: "QuickNotes <noreply@quicknotes.app>",
+    const sendEmail = await getResend().emails.send({
+      from: "QuickNotes <onboarding@resend.dev>",
       to: options.to,
       subject: options.subject,
       html: options.html,
     });
+
+    if (sendEmail.error) {
+      console.error(`[email] Resend error:`, sendEmail.error);
+      throw createError({
+        statusCode: 500,
+        statusMessage: `Failed to send email: ${sendEmail.error.message}`,
+      });
+    }
+
     console.log(`[email] Sent successfully to ${options.to}`);
   } catch (err) {
     console.error(`[email] Failed to send to ${options.to}:`, err);
